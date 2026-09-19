@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#090d16">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PulseGuard">
+  <title>PulseGuard™ Governance Portal (PWA)</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #06080e; color: #f1f5f9; -webkit-tap-highlight-color: transparent; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .touch-target { min-height: 48px; min-width: 48px; }
+    /* Android PWA Smooth Overscroll */
+    html, body { overscroll-behavior-y: contain; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-cyan-500 selection:text-black pb-24 md:pb-6">
+  
+  <!-- Header with PWA Install Banner -->
+  <header class="sticky top-0 z-50 bg-[#090d16]/95 backdrop-blur-md border-b border-gray-800/80 px-4 py-3 flex items-center justify-between shadow-2xl">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-400 via-teal-400 to-emerald-400 flex items-center justify-center font-extrabold text-black text-lg shadow-lg shadow-cyan-500/20">
+        P
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <h1 class="font-bold text-sm tracking-wide text-white">PulseGuard™ Portal</h1>
+          <span class="text-[9px] mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">PWA</span>
+        </div>
+        <p class="text-[10px] text-gray-400 flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+          <span>Device-Side Retention Active</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Controls: Install PWA + Backup Menu -->
+    <div class="flex items-center space-x-2">
+      <!-- PWA Install Button (Shown on Android if prompt available) -->
+      <button id="btn-install-pwa" style="display: none;" class="px-2.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black text-[11px] font-bold shadow-md shadow-cyan-500/20 flex items-center gap-1 transition">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        <span>Install App</span>
+      </button>
+
+      <button onclick="openBackupModal()" class="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-[11px] font-medium border border-gray-700 flex items-center gap-1 transition">
+        <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+        <span class="hidden sm:inline">Device Storage</span>
+      </button>
+
+      <a href="https://drive.google.com/drive/folders/1EahTugt4tMzpww7amHK2YQac25S3hVAa" target="_blank" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-700 transition" title="Open Drive Root">
+        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Progress Bar (Overall Progress Across 5 Phases) -->
+  <div class="w-full bg-[#0b0f19] border-b border-gray-800 px-4 py-2 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <span class="text-[11px] text-gray-400">Total Signoff Progress:</span>
+      <span id="progress-percent" class="mono text-xs font-bold text-cyan-400">0%</span>
+    </div>
+    <div class="w-36 sm:w-56 h-2 bg-gray-800 rounded-full overflow-hidden border border-gray-700">
+      <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 w-0 transition-all duration-500"></div>
+    </div>
+  </div>
+
+  <!-- Mobile Phase Tabs (Horizontal Scroll on Android) -->
+  <nav class="bg-[#080c14] border-b border-gray-800/80 px-2 py-2 flex space-x-1.5 overflow-x-auto no-scrollbar scroll-smooth">
+    <button onclick="selectPhase(1)" id="tab-phase-1" class="shrink-0 px-3 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1.5 bg-cyan-950/50 text-cyan-300 border border-cyan-800">
+      <span class="mono font-bold">1.</span>
+      <span>Crypto Audit</span>
+      <span id="pill-phase-1" class="w-2 h-2 rounded-full bg-gray-600"></span>
+    </button>
+    <button onclick="selectPhase(2)" id="tab-phase-2" class="shrink-0 px-3 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1.5 text-gray-400 hover:bg-gray-800/60">
+      <span class="mono font-bold">2.</span>
+      <span>Clinical & IRB</span>
+      <span id="pill-phase-2" class="w-2 h-2 rounded-full bg-gray-600"></span>
+    </button>
+    <button onclick="selectPhase(3)" id="tab-phase-3" class="shrink-0 px-3 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1.5 text-gray-400 hover:bg-gray-800/60">
+      <span class="mono font-bold">3.</span>
+      <span>Regulatory</span>
+      <span id="pill-phase-3" class="w-2 h-2 rounded-full bg-gray-600"></span>
+    </button>
+    <button onclick="selectPhase(4)" id="tab-phase-4" class="shrink-0 px-3 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1.5 text-gray-400 hover:bg-gray-800/60">
+      <span class="mono font-bold">4.</span>
+      <span>Engineering</span>
+      <span id="pill-phase-4" class="w-2 h-2 rounded-full bg-gray-600"></span>
+    </button>
+    <button onclick="selectPhase(5)" id="tab-phase-5" class="shrink-0 px-3 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1.5 text-gray-400 hover:bg-gray-800/60">
+      <span class="mono font-bold">5.</span>
+      <span>Board & Pitch</span>
+      <span id="pill-phase-5" class="w-2 h-2 rounded-full bg-gray-600"></span>
+    </button>
+  </nav>
+
+  <!-- Main Phase Content Container -->
+  <main class="flex-1 p-4 sm:p-6 max-w-4xl w-full mx-auto space-y-6">
+    <div id="phase-content-container" class="space-y-6">
+      <!-- Dynamic Content Injected by app.js -->
+    </div>
+  </main>
+
+  <!-- Storage & Device Backup Modal -->
+  <div id="backup-modal" style="display: none;" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#0f1422] border border-gray-800 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>💾 Device-Side Data Retention</span>
+        </h3>
+        <button onclick="closeBackupModal()" class="text-gray-400 hover:text-white">&times;</button>
+      </div>
+      <p class="text-xs text-gray-400 leading-relaxed">
+        All signoff statuses, checklists, reviewer details, and written notes are securely stored directly in your Android device's local persistence vault.
+      </p>
+
+      <div class="p-3 bg-[#080c14] border border-gray-800/80 rounded-xl space-y-2 text-xs">
+        <div class="flex justify-between">
+          <span class="text-gray-500">Storage Engine:</span>
+          <span class="mono text-cyan-400">IndexedDB / LocalStorage</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Persisted Records:</span>
+          <span id="modal-records-count" class="mono text-emerald-400 font-bold">0 records</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-500">Device Offline Cache:</span>
+          <span class="mono text-emerald-400 font-bold">ACTIVE (100%)</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 pt-2">
+        <button onclick="exportDeviceBackup()" class="py-2.5 px-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-xs flex items-center justify-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Export JSON</span>
+        </button>
+
+        <label class="py-2.5 px-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer border border-gray-700 transition">
+          <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          <span>Import JSON</span>
+          <input type="file" id="import-file-input" accept=".json" onchange="importDeviceBackup(event)" class="hidden">
+        </label>
+      </div>
+
+      <div class="pt-2 border-t border-gray-800 flex justify-between items-center">
+        <button onclick="resetDeviceStorage()" class="text-xs text-red-400 hover:text-red-300">Clear All Device Data</button>
+        <button onclick="closeBackupModal()" class="px-4 py-1.5 rounded-lg bg-gray-800 text-xs text-gray-300">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Sticky Status Bar -->
+  <footer class="fixed bottom-0 inset-x-0 bg-[#090d16]/95 backdrop-blur-md border-t border-gray-800 px-4 py-3 flex items-center justify-between z-40 md:hidden">
+    <div class="flex items-center space-x-2">
+      <span class="text-[11px] text-gray-400">Current:</span>
+      <span id="footer-phase-name" class="text-xs font-bold text-cyan-400 truncate max-w-[170px]">Phase 1</span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button onclick="prevPhase()" class="p-2 rounded-lg bg-gray-800 text-gray-300 text-xs font-semibold">&larr;</button>
+      <button onclick="nextPhase()" class="px-3 py-2 rounded-lg bg-cyan-500 text-black text-xs font-bold shadow-md shadow-cyan-500/20">Next &rarr;</button>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
