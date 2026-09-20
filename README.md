@@ -13,7 +13,7 @@ This repository is pre-configured for automated deployment to GitHub Pages.
 ### Setup Instructions
 
 1. **Create a new repository on GitHub:**
-   - Name: `pulseguard-signoff-tracker` (or any name you prefer)
+   - Name: `pulseguard_signof` (or any name you prefer)
    - Set visibility to **Public** (for standard free GitHub Pages) or **Private** (if you have GitHub Pro/Enterprise).
 
 2. **Initialize and push the repository from your terminal:**
@@ -22,7 +22,7 @@ This repository is pre-configured for automated deployment to GitHub Pages.
    git add .
    git commit -m "feat: initial commit PulseGuard Signoff Portal & Governance Tracker"
    git branch -M main
-   git remote add origin https://github.com/<your-username>/pulseguard-signoff-tracker.git
+   git remote add origin https://github.com/jthatcher87/pulseguard_signof.git
    git push -u origin main
    ```
 
@@ -31,7 +31,7 @@ This repository is pre-configured for automated deployment to GitHub Pages.
    - Under **Build and deployment** → **Source**, select **GitHub Actions**.
    - The pre-configured workflow (`.github/workflows/deploy.yml`) will automatically trigger and publish the live portal at:
      ```
-     https://<your-username>.github.io/pulseguard-signoff-tracker/
+     https://jthatcher87.github.io/pulseguard_signof/
      ```
 
 ---
