@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseGuard™ Stateless Public Relay Architecture & Deployment Guide | PulseGuard™</title>
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --surface: #ffffff;
+  --background: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --header-bg: #f1f5f9;
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--background);
+  line-height: 1.6;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.document-container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 48px 56px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+}
+
+.btn:hover { background: #f8fafc; border-color: #94a3b8; }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+
+h1 {
+  font-size: 24pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 0;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.doc-subtitle {
+  font-size: 13pt;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.metadata-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 32px 0;
+  font-size: 11pt;
+}
+
+.metadata-table th, .metadata-table td {
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.metadata-table th {
+  background-color: var(--header-bg);
+  color: var(--text-main);
+  width: 25%;
+  font-weight: 600;
+}
+
+.metadata-table td {
+  background-color: #ffffff;
+  color: var(--text-muted);
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 36px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+h3 {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+p, li {
+  font-size: 11pt;
+  color: #334155;
+  line-height: 1.7;
+}
+
+ul, ol { padding-left: 24px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 10.5pt;
+  page-break-inside: avoid;
+}
+
+table.data-table th, table.data-table td {
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.data-table th {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+table.data-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.callout {
+  background: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  padding: 16px 20px;
+  border-radius: 0 6px 6px 0;
+  margin: 20px 0;
+  font-size: 11pt;
+  color: #166534;
+}
+
+.callout-info {
+  background: #f0f9ff;
+  border-left: 4px solid #0284c7;
+  color: #0369a1;
+}
+
+.callout-warning {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 10pt;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+
+.badge-approved { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.badge-compliant { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+
+@media print {
+  body { background: white; padding: 0; }
+  .document-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+  .nav-bar { display: none; }
+  table.data-table { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+  @page { margin: 20mm 15mm; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="document-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Signoff Portal</span>
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        <span>Print / Save as PDF</span>
+      </button>
+    </div>
+
+    <h1>PulseGuard™ Stateless Public Relay Architecture & Deployment Guide</h1>
+    <div class="doc-subtitle">RFC 9458 Oblivious HTTP Gateway Proxy, Ephemeral Redis Bulletin Target, and Confidential Computing</div>
+
+    <table class="metadata-table">
+      <tr><th>Protocol Standards</th><td>RFC 9292 Binary HTTP • RFC 9458 OHTTP • RFC 9180 HPKE</td></tr><tr><th>Enclave Environments</th><td>AWS Nitro Enclaves (VSOCK) • GCP Confidential Space (AMD SEV-SNP)</td></tr><tr><th>Ephemeral Cache</th><td>Redis 7.x Cluster with biological TTL eviction (14 to 30 Days)</td></tr><tr><th>Anti-Troll Shield</th><td>Hashcash Proof-of-Work (>=20 bits) • VCI JWS Detached Verification</td></tr><tr><th>System Architect</th><td>Josh Thatcher</td></tr><tr><th>Date of Record</th><td>September 2026</td></tr>
+    </table>
+
+    <div class="content-body">
+      
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">﻿PulseGuard Stateless Public Relay Architecture & Deployment Guide</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> System Overview & Threat Model</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">The PulseGuard Stateless Public Relay functions as a zero-knowledge, append-only public bulletin board for anonymous exposure notification manifests. In accordance with PulseGuard's zero-PII cryptographic posture, the relay server is architecturally incapable of identifying which users or physical devices published a manifest or which devices downloaded and matched a manifest locally.</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<h3 style="color:#334155; font-size:13pt; margin-top:18px; margin-bottom:8px; font-family:sans-serif;">Oblivious HTTP Dual-Hop Network Architecture (RFC 9458)</h3>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Network Node</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Network Role</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Operational Responsibilities</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Metadata Visible</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Metadata Stripped / Hidden</th>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Client Mobile App</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Request Originator</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Encapsulates Binary HTTP message with Relay Public Key using HPKE DHKEM(X25519)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Own IP, Target Endpoint</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">N/A</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>OHTTP Gateway Proxy</b> (`ohttp-gateway.pulseguard.org`)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Untrusted Privacy Shield</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Terminates client TLS connection; strips client IP and user headers; forwards to Target</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Client IP address, TLS headers</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>CANNOT decrypt payload</b> (Encrypted under Target's public key)</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Stateless Relay Target</b> (`relay.pulseguard.org`)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Bulletin Board Target</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Decapsulates payload using private key; verifies Hashcash PoW and lab signature; saves to Redis</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Payload contents (BLAKE3 hashes + LOINC)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>CANNOT see Client IP</b> (Terminated at Gateway)</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Peer Mobile Clients</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Anonymous Subscribers</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Fetch global expiring hash manifests; execute client-side private set intersection</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Encrypted manifest blob</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Zero device telemetry reported back to server</td>
+</tr>
+</table>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Core Security & Privacy Invariants:</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Network Anonymity (RFC 9292 / RFC 9458): The OHTTP Gateway proxy and Target Relay server are deployed on isolated cloud infrastructures. The Gateway terminates client IP addresses but cannot decrypt payload contents. The Target Relay decrypts payloads but only communicates with the Gateway.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Zero Server Relational Graph: The relay stores no relational graphs, no user accounts, no device identifiers, no push tokens, and no geolocation coordinates.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Immutable Ephemeral Retention: All stored manifests are strictly time-bounded (14 to 30 days) matching pathogen biological windows, after which memory and persistent keys automatically self-destruct via TTL eviction.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>4.</b> Denial-of-Service & Anti-Troll Shield: Automated bot floods and griefing submissions are neutralized through a multi-tier defense: Hashcash Proof-of-Work (minimum 20-bit difficulty), detached JWS laboratory verification, and hardware-bound rate-limit cooldowns.</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Oblivious HTTP (OHTTP) Gateway & Target Separation</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">PulseGuard adheres to the IETF standards for Oblivious HTTP:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">RFC 9292: Binary Representation of HTTP Messages (message/bhttp).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">RFC 9458: Oblivious HTTP protocol specification.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">RFC 9180: Hybrid Public Key Encryption (HPKE).</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Key Configuration Lifecycle (GET /ohttp-keys):</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">The relay target publishes an active HPKE key configuration:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">KEM: DHKEM(X25519, HKDF-SHA256) (Identifier: 0x0020)</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">KDF: HKDF-SHA256 (Identifier: 0x0001)</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">AEAD: AES-128-GCM (Identifier: 0x0001) or ChaCha20Poly1305 (Identifier: 0x0003)</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">The client fetches /ohttp-keys, packages its POST /manifest/publish request into Binary HTTP format, encapsulates it with the relay's public key, and transmits it to the OHTTP Gateway. The Gateway forwards the binary blob to the target relay over an internal mutual-TLS (mTLS) link.</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Ingestion Pipeline & Verification Engine</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">When the target relay receives an unwrapped POST /manifest/publish request:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Ingest Request ]</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Step 1: Proof-of-Work Verification ]</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Check Header: X-PulseGuard-PoW</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Validate Hashcash format (1:bits:date:resource:ext:salt:counter)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Verify SHA-1 / SHA-256 hash has >= 20 leading zero bits (~1,048,576 iterations)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Verify timestamp within +/- 15 minutes of server UTC clock</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Check Replay Cache in Redis (SETNX pow:<nonce> EX 1800) -> If duplicate: 403</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Step 2: Schema & Hash Array Validation ]</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Validate 1 <= count(hashes) <= 5000</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Validate all hashes are strictly 64 hexadecimal characters (BLAKE3)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Validate LOINC pattern (e.g., ^[0-9]{3,5}-[0-9]$)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Step 3: Laboratory Signature & Anti-Troll Cooldown Evaluation ]</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Case A: Detached JWS Signature Present</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Parse compact JWS: header..signature</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Extract kid from protected header</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Lookup issuer public key from local VCI JWK cache</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Verify ECDSA P-256 (ES256) signature over Digest(LOINC || Result || SpecimenDate)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">IF Valid -> Assign Badge: LAB_VERIFIED_LEVEL_1</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">BYPASS self-report cooldown timer</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">IF Invalid -> REJECT: 401 Unauthorized</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Case B: No Lab Signature (Manual Self-Report)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Query Redis for rate_limit:<client_subnet_or_enclave_token></p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">IF active cooldown found: REJECT 429 Too Many Requests (Retry-After header)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">IF cooldown clear: Assign Badge: COMMUNITY_SELF_REPORT_LEVEL_2</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Set Cooldown Timer (21-30 days)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Step 4: Ephemeral Persistence ]</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Write to Redis Cluster (ZADD manifest:active, EXPIRE ttl)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;"> →  Append to cold audit log with rolling window deletion</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Response 201 Created ]</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Returns manifest_id, confidence_badge, expires_at, receipt_timestamp</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>4.</b> Stateless Memory Architecture (Redis + Cold Store)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">The bulletin board runs on a high-throughput, low-latency stateless memory architecture designed for fast concurrent client batch fetches:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">RELAY STORAGE INFRASTRUCTURE</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">HOT TIER: In-Memory Redis 7.x Cluster</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Active Manifests Sorted Set: ZADD manifests:by_time <timestamp> <manifest_id></th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Manifest Hashes Set: SADD manifest:<manifest_id>:hashes <blake3_hash></th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Auto-Eviction: EXPIREAT manifest:<manifest_id> <expires_at_timestamp> (14-30d)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Replay Shield: SETNX pow:used:<token> 1 EX 1800 (Prevents PoW reuse)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">COLD TIER: Stateless Rolling Database (PostgreSQL 16 / CockroachDB)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Table: public_manifests (manifest_id, loinc, tier, badge, expires_at, created_at)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Table: manifest_hashes (manifest_id, blake3_hash) - Clustered by published_at</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Partitioning: Automated daily tables with DROP TABLE for partitions > 30 days old</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Automatic TTL & Partition Drop Automation:</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Hot Tier (Redis): Every manifest key is assigned an explicit TTL matching the clinical transmission window (Tier 1: 30 days, Tier 2: 30 days, Tier 3: 45 days). Redis native volatile-ttl eviction guarantees zero stale hash retention.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Cold Tier (Database): Daily table partitions (e.g., manifest_hashes_2026_09_03). A scheduled cron worker runs DROP TABLE on any partition older than 30 days, guaranteeing that subpoena requests cannot yield historical data.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>5.</b> Client Batch Polling & Blind Matching Contract</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">The endpoint GET /manifest/batch serves client devices synchronizing exposure manifests in the background:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Incremental Synchronization: The client supplies ?since=<timestamp>. The relay queries the sorted set manifests:by_time for items where timestamp > since and returns up to limit entries (default 100, max 1000).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Next Cursor Token: The response includes next_since. If the client is caught up, manifests is empty and next_since equals the current server timestamp.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Decentralized Local Matching: The mobile client ingests the batch into volatile memory and performs a private set intersection against its local SQLite Ledger B (encounter_sessions). If an encounter matches:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The server is never notified.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The mobile OS triggers a local discreet notification.</li>
+
+    </div>
+  </div>
+</body>
+</html>

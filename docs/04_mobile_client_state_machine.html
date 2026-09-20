@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseGuard™ Mobile Client State Machine & State Transition Matrix | PulseGuard™</title>
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --surface: #ffffff;
+  --background: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --header-bg: #f1f5f9;
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--background);
+  line-height: 1.6;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.document-container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 48px 56px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+}
+
+.btn:hover { background: #f8fafc; border-color: #94a3b8; }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+
+h1 {
+  font-size: 24pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 0;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.doc-subtitle {
+  font-size: 13pt;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.metadata-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 32px 0;
+  font-size: 11pt;
+}
+
+.metadata-table th, .metadata-table td {
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.metadata-table th {
+  background-color: var(--header-bg);
+  color: var(--text-main);
+  width: 25%;
+  font-weight: 600;
+}
+
+.metadata-table td {
+  background-color: #ffffff;
+  color: var(--text-muted);
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 36px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+h3 {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+p, li {
+  font-size: 11pt;
+  color: #334155;
+  line-height: 1.7;
+}
+
+ul, ol { padding-left: 24px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 10.5pt;
+  page-break-inside: avoid;
+}
+
+table.data-table th, table.data-table td {
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.data-table th {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+table.data-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.callout {
+  background: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  padding: 16px 20px;
+  border-radius: 0 6px 6px 0;
+  margin: 20px 0;
+  font-size: 11pt;
+  color: #166534;
+}
+
+.callout-info {
+  background: #f0f9ff;
+  border-left: 4px solid #0284c7;
+  color: #0369a1;
+}
+
+.callout-warning {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 10pt;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+
+.badge-approved { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.badge-compliant { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+
+@media print {
+  body { background: white; padding: 0; }
+  .document-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+  .nav-bar { display: none; }
+  table.data-table { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+  @page { margin: 20mm 15mm; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="document-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Signoff Portal</span>
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        <span>Print / Save as PDF</span>
+      </button>
+    </div>
+
+    <h1>PulseGuard™ Mobile Client State Machine & State Transition Matrix</h1>
+    <div class="doc-subtitle">Comprehensive State Architecture across All 7 Client Runtime Domains</div>
+
+    <table class="metadata-table">
+      <tr><th>Document Version</th><td>1.0.0 (Production Implementation Specification)</td></tr><tr><th>Classification</th><td>Engineering Specification / Approved Directives</td></tr><tr><th>Runtime Engine</th><td>Flutter / Dart compiled AOT to native ARM64</td></tr><tr><th>State Management</th><td>Riverpod Unidirectional Immutable State Flow</td></tr><tr><th>Security Policies</th><td>OS Window Masking (FLAG_SECURE), Ghost Mode 15s Grace Timer</td></tr><tr><th>System Architect</th><td>Josh Thatcher (Josh Thatcher, LLC / PNiX)</td></tr><tr><th>Date of Record</th><td>September 16, 2026</td></tr>
+    </table>
+
+    <div class="content-body">
+      <p>﻿PulseGuard | State Machine & Transition Matrix</p>
+<p>PulseGuard</p>
+<p>Mobile Client State Machine & State Transition Matrix</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<p>Document Version | 1.0.0</p>
+<p>Status | APPROVED & LOCKED IMPLEMENTATION SPECIFICATION</p>
+<p>Author / System Architect | Josh Thatcher (Josh Thatcher, LLC / PNiX)</p>
+<p>Date of Record | September 16, 2026</p>
+<p>Origin Location | Chicago, Illinois, United States</p>
+<p>Governing Standard | NIST SP 800-63B AAL3 / Zero-Knowledge Client-Side Enclave Model</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Executive Overview & State Architecture</li>
+</ol>
+<p>1.1 Technical Stack & Execution Environment</p>
+<p>The PulseGuard mobile client is engineered as a zero-knowledge, high-assurance digital health and exposure notification application:</p>
+<ul>
+<li>PRESENTATION & BUSINESS LOGIC LAYER | Built natively using Flutter / Dart, compiled Ahead-Of-Time (AOT) to native ARM64 machine code. There is no JavaScript runtime, no WebAssembly translation layer, and no browser Document Object Model (DOM) attack surface.</li>
+<li>STATE ARCHITECTURE PATTERN: Implemented via Riverpod (StateNotifier / AsyncNotifier) enforcing unidirectional data flow, explicit state immutability, compile-time provider safety, and deterministic testability.</li>
+<li>HARDWARE ROOT-OF-TRUST: Cryptographic operations interface directly with platform hardware security modules—the Apple Secure Enclave Processor (SEP) on iOS and Android StrongBox / Keymaster on Android.</li>
+<li>TRIPLE-LEDGER MEMORY & PERSISTENCE ISOLATION: The local persistence layer is physically and cryptographically partitioned into three distinct SQLite databases encrypted with SQLCipher (AES-256-GCM):</li>
+</ul>
+<ol>
+<li>Ledger A (ledger_a_medical.db): Medical History & Diagnostic Vault, encrypted under hardware key <code>K_{<b>health</b>}</code>. Contains LOINC diagnostic codes, qualitative results, specimen dates, detached lab signatures, and negative anchors. Contains zero encounter tokens, zero credentials, and zero PII.</li>
+<li>Ledger B (ledger_b_encounters.db): Ephemeral Encounters Vault, encrypted under hardware key <code>K_{<b>tokens</b>}</code>. Contains dynamic rotating beacon tokens, pathogen-scoped burn states, local-only behavioral tags, and received advisories. Contains zero medical history and zero credentials.</li>
+<li>Ledger C (ledger_c_auth.db): EHR Connection & Refresh Token Vault, encrypted under hardware key <code>K_{<b>auth</b>}</code>. Stores encrypted OAuth refresh tokens and provider FHIR endpoints strictly when automated sync is opted in. Contains zero clinical data and zero encounter tokens.</li>
+</ol>
+<ul>
+<li>Absolute Relational Decoupling: Zero foreign keys, zero relational joins, and zero indices exist across Ledgers A, B, and C. Any correlation occurs exclusively in volatile RAM during runtime execution and is purged immediately with binary zeros (memset_s).</li>
+</ul>
+<p>PulseGuard Client Runtime & Triple-Ledger Storage TopologyKey</p>
+<p>Architectural Layer</p>
+<p>Ledger A</p>
+<p>(Medical History)</p>
+<p>Ledger B</p>
+<p>(Ephemeral Encounters)</p>
+<p>Ledger C</p>
+<p>(EHR Auth Vault)</p>
+<p>HARDWARE ROOT</p>
+<p>Apple SEP / Android StrongBox</p>
+<p>Apple SEP / Android StrongBox</p>
+<p>Apple SEP / Android StrongBox</p>
+<p>DERIVATION PATH</p>
+<p>m/0'/health'</p>
+<p>m/0'/tokens'</p>
+<p>m/0'/auth'</p>
+<p>ENCRYPTION KEY</p>
+<p>K_health (AES-256-GCM)</p>
+<p>K_tokens (AES-256-GCM)</p>
+<p>K_auth (AES-256-GCM)</p>
+<p>DATABASE FILE</p>
+<p>ledger_a_medical.db</p>
+<p>ledger_b_encounters.db</p>
+<p>ledger_c_auth.db</p>
+<p>TABLES STORED</p>
+<p>• diagnostic_records</p>
+<p>• clinical_episodes</p>
+<p>• negative_test_anchors</p>
+<p>• routine_screening</p>
+<p>• encounter_sessions</p>
+<p>• pathogen_burn_ledger</p>
+<p>• encounter_context</p>
+<p>• received_advisories</p>
+<p>• rate_limit_state</p>
+<p>• provider_connections</p>
+<p>• encrypted_refresh_tokens</p>
+<p>• sync_audit_timestamps</p>
+<p>STRICT DATA ISOLATION</p>
+<p>• ZERO encounter tokens</p>
+<p>• ZERO PII or demographics</p>
+<p>• ZERO auth credentials</p>
+<p>• ZERO medical history</p>
+<p>• ZERO lab records</p>
+<p>• ZERO auth credentials</p>
+<p>• User Opt-In Only</p>
+<p>• ZERO clinical records</p>
+<p>• ZERO encounter tokens</p>
+<p>• Overwritten with zeros on disconnect</p>
+<p>RELATIONAL BOUNDARY</p>
+<p>NO FOREIGN KEYS</p>
+<p>NO FOREIGN KEYS</p>
+<p>NO FOREIGN KEYS</p>
+<p>Architectural Rules:</p>
+<ol>
+<li>Independent Key Derivation: K_health, K_tokens, and K_auth are derived along non-converging derivation paths from hardware roots of trust. Compromising one key provides zero mathematical advantage against the others.</li>
+<li>Zero Persistent Joins: There are no foreign keys, relational indices, or join tables linking Ledgers A, B, and C.</li>
+<li>Volatile-Only Memory Correlation: Any correlation between clinical windows and encounter tokens occurs strictly in volatile RAM and is scrubbed immediately via memset_s.</li>
+<li>Ledger C Opt-Out Wipe: If the user disables automated EHR sync, Ledger C is overwritten with binary zeros (memset_s) and K_auth is permanently revoked from the hardware Secure Enclave.</li>
+</ol>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Domain 1: App Lifecycle, Physical Security & Biometrics</li>
+</ol>
+<p>2.1 State Definitions</p>
+<ul>
+<li>UNINITIALIZED: App installed but no hardware keys derived; onboarding incomplete; BIP-39 mnemonic seed phrase ungenerated.</li>
+<li>LOCKED: Cryptographic master keys evicted from volatile RAM; UI view buffers purged; biometric/PIN barrier presented.</li>
+<li>AUTHENTICATED: Active session; <code>K_{<b>health</b>}</code> and <code>K_{<b>tokens</b>}</code> handles available in volatile memory; UI fully operational.</li>
+<li>GRACE_SUSPENDED: App transitioned to background with "Zero-Tolerance App Lock" disabled; 15-second in-memory countdown running.</li>
+<li>OBSCURED_GAZEGUARD: Foreground sensitive view actively shielded by high-depth blur due to shoulder-surfer detection or device tilt.</li>
+<li>COOLDOWN_LOCKED: Hardware monotonic PIN rate-limit penalty active (1 to 3.5 minutes); credential inputs disabled.</li>
+<li>WIPED_SELF_DESTRUCT: Permanent terminal state; 11 failed PIN attempts registered; Secure Enclave keys revoked; databases zeroed.</li>
+</ul>
+<p>2.2 Lifecycle & Security Directives</p>
+<ol>
+<li>Zero-Tolerance App Lock Settings:</li>
+</ol>
+<ul>
+<li>Controlled via an in-app setting labeled "Zero-Tolerance App Lock" (Default: ON).</li>
+<li>When ON: Transitioning to AppLifecycleState.paused or inactive triggers instant volatile memory zeroization and forces state transition to LOCKED with zero grace period.</li>
+<li>When OFF: Transitioning to paused starts an ephemeral 15-second hardware monotonic timer. Resuming within 15 seconds returns to AUTHENTICATED. At <code>t = 15.001<b>s</b></code>, memory is zeroed and state transitions to LOCKED.</li>
+</ul>
+<ol>
+<li>Biometric Failure & Tiered Hardware Lockout Schedule:</li>
+</ol>
+<ul>
+<li>Biometric Threshold: Exactly 3 consecutive failed biometric/passkey assertions disables biometrics and enforces PIN Entry Only.</li>
+<li>Monotonic PIN Lockout Counter (Apple SEP / Android StrongBox):</li>
+<li>Attempts 1–4: Immediate retry permitted with haptic error feedback.</li>
+<li>Attempt 5: Enforces hardware cooldown of 00:01:00 ("Too many failed attempts. Retry after cooldown period.").</li>
+<li>Attempt 6: Cooldown resets to 00:01:30 ("Retry after cooldown period. *WARNING: 5 Attempts remain until application and local app data is destroyed permanently.").</li>
+<li>Attempt 7: Cooldown resets to 00:02:00 ("Retry after cooldown period. *WARNING: 4 Attempts remain until application and local app data is destroyed permanently.").</li>
+<li>Attempt 8: Cooldown resets to 00:02:30 ("Retry after cooldown period. *WARNING: 3 Attempts remain until application and local app data is destroyed permanently.").</li>
+<li>Attempt 9: Cooldown resets to 00:03:00 ("Retry after cooldown period. *WARNING: 2 Attempts remain until application and local app data is destroyed permanently.").</li>
+<li>Attempt 10: Cooldown resets to 00:03:30 ("Retry after cooldown period. ‼️CRITICAL WARNING ‼️ This is the final attempt before all locally encrypted enclave data is permanently deleted and scrubbed. ⚠️ IMPORTANT: Once scrubbed the data cannot be recreated or retrieved from memory or storage.").</li>
+<li>Attempt 11 (Terminal Execution): Permanent cryptographic self-destruct. Hardware keys <code>K_{<b>health</b>}</code>, <code>K_{<b>tokens</b>}</code>, and <code>K_{<b>auth</b>}</code> are revoked and deleted from the Secure Enclave / StrongBox. All SQLite database files are overwritten with zeros (memset_s) and unlinked. The application resets to UNINITIALIZED.</li>
+</ul>
+<ol>
+<li>Mandatory BIP-39 Recovery Onboarding:</li>
+</ol>
+<ul>
+<li>Generating and recording the 12-word recovery mnemonic is strictly mandatory during initial setup.</li>
+<li>User cannot enter the app until they successfully complete a randomized 3-word challenge (e.g., "Select Word #3, Word #7, and Word #11").</li>
+</ul>
+<ol>
+<li>OS-Level Screen Shielding & Dev Mode:</li>
+</ol>
+<ul>
+<li>In production builds, WindowManager.LayoutParams.FLAG_SECURE (Android) and applicationWillResignActive opaque window masking (iOS) are 100% active, preventing screenshots, screen recordings, and task-switcher snapshots.</li>
+<li>Debug/Internal builds feature a gated "Dev Mode / God Status" toggle to disable shielding strictly for QA bug logging, physically stripped from production binaries via #if DEBUG compiler flags.</li>
+</ul>
+<ol>
+<li>Neural GazeGuard (Edge AI Shoulder-Surfer Defense):</li>
+</ol>
+<ul>
+<li>Activation: Remains actively monitoring via front-camera NPU whenever sensitive medical views (Ledger A clinical records, incoming exposure advisories) are rendered.</li>
+<li>Trigger: If an auxiliary face or acute tilt angle is detected, the UI blurs into frosted glass within <code><80<b>ms</b></code>.</li>
+<li>Deactivation: Strictly requires Biometric unlock or PIN re-entry. Moving the secondary face out of frame will not auto-clear the blur.</li>
+</ul>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Domain 2: Proximity Exchange & Encounter State Machine</li>
+</ol>
+<p>3.1 State Definitions</p>
+<ul>
+<li>IDLE: Radio and optical scanners dormant; awaiting user proximity trigger.</li>
+<li>BEACON_BROADCASTING: Host mode active; displaying dynamic 2D optical QR beacon rotated every 30 seconds via <code><b>HMAC-SHA256</b>(EMS, <b>epoch</b>)</code>.</li>
+<li>BEACON_SCANNING: Camera HUD active; scanning peer QR beacon (<code><300<b>ms</b></code> capture).</li>
+<li>P2P_HANDSHAKE_MUTUAL: 1-on-1 NFC tap (Bump to Pair) or optical bidirectional pairing; executing ephemeral Curve25519 ECDH key agreement.</li>
+<li>POST_CHECKIN_ROUTING: Handshake complete; executing user-configured post-check-in workflow.</li>
+<li>COMMITTED_LEDGER_B: Ephemeral session token, timestamps, and context written to hardware-encrypted Ledger B.</li>
+<li>VENUE_SESSION_ACTIVE: User checked into an active group/venue event; awaiting auto-expiration or manual departure.</li>
+</ul>
+<p>3.2 Proximity & Bounding Directives</p>
+<ol>
+<li>User-Configurable Post-Check-In Flow:</li>
+</ol>
+<ul>
+<li>Configurable under "Check-In Preferences" with three selectable modes:</li>
+<li>Mode A (Fast Auto-Dismiss): Instant haptic confirmation <code>\to</code> immediate dismissal to Home Screen. Tags default to UNSPECIFIED in Ledger B (user can edit later).</li>
+<li>Mode B (Immediate Modal — Default): Quick 2-tap bottom sheet with barrier/role pills, auto-dismissing after 10 seconds if untouched.</li>
+<li>Mode C (Delayed Reminder): Dismisses instantly, but schedules a silent local notification 1–2 hours later prompting optional notes.</li>
+</ul>
+<ol>
+<li>Calendar-Day Temporal Modeling (1-on-1):</li>
+</ol>
+<ul>
+<li>Time-of-day hours and minutes are discarded for clinical exposure evaluation. Encounters are anchored strictly to the full calendar date (YYYY-MM-DD). This matches biological incubation timelines and prevents forensic time-triangulation.</li>
+</ul>
+<ol>
+<li>Venue & Overnight Event Bounding:</li>
+</ol>
+<ul>
+<li>Single-day events (e.g., Saturday 2:00 PM – 10:00 PM) are bounded to that calendar date.</li>
+<li>Overnight events spanning midnight (e.g., Saturday 10:00 PM – Sunday 4:00 AM) span both dates and anchor the exposure evaluation to the event conclusion date (Sunday). This guarantees that attendees who depart before midnight remain covered by lookback calculations if transmission chains continued through the event's conclusion.</li>
+</ul>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Domain 3: Clinical Ingestion & Triple-Ledger Synchronization</li>
+</ol>
+<p>4.1 State Definitions</p>
+<ul>
+<li>CLINICAL_IDLE: No active laboratory ingestion; monitoring scheduled screening cadences.</li>
+<li>AUTH_FLOW_ACTIVE: System secure webview active (ASWebAuthenticationSession / Custom Tabs); user authenticating with MyChart / Quest.</li>
+<li>FHIR_INGESTION_RAM: Raw FHIR JSON or SMART Health Card JWS payload resident in volatile RAM.</li>
+<li>SURGICAL_PII_PURGE: Volatile RAM parser extracting non-PII attributes and overwriting PII with zeros (memset_s) in <code><10<b>ms</b></code>.</li>
+<li>SYPHILIS_ADJUDICATION_GATE: Active screening for treponemal vs nontreponemal markers; checking prior treatment history.</li>
+<li>ATOMIC_DISAGGREGATION: Splitting multi-panel results; committing negatives to anchors and positives to clinical episodes.</li>
+<li>COMMITTED_LEDGER_A: Clinical record, LOINC codes, and detached lab signatures committed to Ledger A under <code>K_{<b>health</b>}</code>.</li>
+<li>LEDGER_C_PURGE: Opt-out ceremony executing DoD-grade zero-fill memory wiping of Ledger C and revoking <code>K_{<b>auth</b>}</code>.</li>
+</ul>
+<p>4.2 Ingestion & Clinical Adjudication Directives</p>
+<ol>
+<li>Triple-Ledger Architecture & Ledger C Opt-In Model:</li>
+</ol>
+<ul>
+<li>Automated background sync is opt-in, supported by an interactive educational infographic explaining credential storage.</li>
+<li>If enabled, OAuth refresh tokens and provider endpoints are stored in Ledger C (ledger_c_auth.db), encrypted under dedicated hardware key <code>K_{<b>auth</b>}</code>. Zero foreign keys connect Ledger C to Ledgers A or B.</li>
+<li>If the user opts out, a warning dialog is displayed. Upon confirmation, Ledger C database pages are completely overwritten with binary zeros (memset_s) and unlinked, and <code>K_{<b>auth</b>}</code> is revoked from the hardware Secure Enclave.</li>
+</ul>
+<ol>
+<li>Multi-Panel Atomic Disaggregation:</li>
+</ol>
+<ul>
+<li>In a single atomic transaction, all negative results in an ingested panel are committed to negative_test_anchors in Ledger A (empowering Smart Truncation).</li>
+<li>All verified positive results create active entries in clinical_episodes and launch the outbound notification workflow.</li>
+</ul>
+<ol>
+<li>Indeterminate / Inconclusive Results Policy:</li>
+</ol>
+<ul>
+<li>Results marked INDETERMINATE, EQUIVOCAL, or INCONCLUSIVE are committed to Ledger A with guidance ("Inconclusive — re-testing recommended in 14 days"), but strictly block outbound exposure manifest generation.</li>
+</ul>
+<ol>
+<li>Dual-Marker Syphilis Adjudication Protocol (Preventing False Positives):</li>
+</ol>
+<ul>
+<li>Treponemal-Only Filter: Treponemal antibody tests (TP-PA, EIA) measure lifetime antibodies and can remain positive for life; a treponemal test alone can NEVER trigger an exposure broadcast.</li>
+<li>Quantitative RPR Requirement: Diagnosis requires a quantitative nontreponemal titer (RPR / VDRL, LOINC 20507-0).</li>
+<li>The "Prior Treatment History" Triage Gate:</li>
+<li>When no baseline exists in Ledger A, the app asks: "Have you received penicillin or antibiotic treatment for Syphilis in the past?"</li>
+<li>If NO (Never Treated): Classified as new active infection; authorizes outbound lookback notification workflow.</li>
+<li>If YES (Previously Treated): Explains the serofast state. Unless the user confirms their provider verified an active reinfection (e.g., a 4-fold / two-dilution titer increase from 1:2 to 1:8), the broadcast is aborted, and the titer is logged as the local Baseline Serofast Anchor in Ledger A to prevent future false alarms.</li>
+</ul>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Domain 4: Outbound Exposure Broadcast & Inbound Advisories</li>
+</ol>
+<p>5.1 State Definitions</p>
+<ul>
+<li>OUTBOUND_PREVIEW: Presenting shame-free clinical window confirmation card; zero partner counts displayed.</li>
+<li>POW_SOLVING: Computing client-side Hashcash Proof-of-Work challenge (~2 seconds CPU load).</li>
+<li>JITTER_QUEUED: Manifest held in local encrypted background queue with 1–4 hour randomized delay.</li>
+<li>DISPATCHING_OHTTP: Transmitting encapsulated Binary HTTP payload to public relay via OHTTP Gateway / Tor proxy.</li>
+<li>BROADCAST_COMPLETE: Hashing complete; tokens marked as BURNED for reported pathogen in Ledger B; dignified confirmation rendered.</li>
+<li>ADVISORY_UNREAD: New matching hash identified locally during background sync; notification queued or displayed.</li>
+<li>ADVISORY_REVIEWED: User biometrically unlocked app and inspected pathogen, timeframe, and clinical testing window.</li>
+<li>ADVISORY_ACTION_LOGGED: User recorded local action (PEP/Doxy-PEP sought, test scheduled, clinic visited).</li>
+<li>ADVISORY_ARCHIVED: Case resolved; retained locally in Ledger B for personal audit.</li>
+</ul>
+<p>5.2 Broadcast & Notification Directives</p>
+<ol>
+<li>Shame-Free Outbound Confirmation Card:</li>
+</ol>
+<ul>
+<li>NO personal partner counts ("Notifying X people") or token counts are ever displayed.</li>
+<li>Framed strictly around the CDC biological transmission window (e.g., "Covering exposures within the CDC-recommended 60-day clinical window: July 15 – August 28").</li>
+<li>Post-broadcast confirmation displays:</li>
+</ul>
+<p>"The relative encounters have been notified under our explicit zero-PII guarantee."</p>
+<ol>
+<li>Dual-Mode Outbound Transmission Jitter:</li>
+</ol>
+<ul>
+<li>Default Mode: Uploads default to randomized transmission jitter (1 to 4 hours) dispatched via an encrypted background task to neutralize network correlation attacks.</li>
+<li>Emergency Override: User can toggle "Send Immediately (Bypass Delay for Urgent Partner Prophylaxis)" if an encounter occurred within the critical 72-hour window for PEP or Doxy-PEP.</li>
+</ul>
+<ol>
+<li>Inbound Advisory Notification Timing & Quiet Hours:</li>
+</ol>
+<ul>
+<li>Users define custom quiet hours (Default: 10:00 PM to 08:00 AM).</li>
+<li>Routine matches discovered during quiet hours are held in local memory and dispatched at 8:01 AM.</li>
+<li>Urgent Prophylaxis Exception: High-urgency exposures (e.g., HIV exposure <code><72<b>h</b></code> requiring PEP) bypass the quiet window.</li>
+</ul>
+<ol>
+<li>Local Ambient Camouflage Notifications (Zero-Bubble Rule):</li>
+</ol>
+<ul>
+<li>Critical alerts use discreet notification architecture: zero lock-screen pop-up bubbles and zero pathogen names.</li>
+<li>Rendered using local OS notification APIs as either Mode 2 (Simulated Patient Health Portal Notice) or Mode 3 (Silent In-App Badge Dot Only).</li>
+<li>Tapping the notification requires immediate Biometric or PIN authentication before disclosing clinical details.</li>
+</ul>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Comprehensive State Transition Tables</li>
+</ol>
+<p>6.1 Domain 1: App Lifecycle & Physical Security Transition Table</p>
+<p>Current State</p>
+<p>Event Trigger</p>
+<p>Guard Condition / Validation</p>
+<p>Target State</p>
+<p>Actions Executed</p>
+<p>UNINITIALIZED</p>
+<p>User completes 12-word seed challenge</p>
+<p>Seed verified via BIP-39 checksum</p>
+<p>LOCKED</p>
+<p>Derive master seeds; generate Ledger A & B; prompt PIN setup.</p>
+<p>LOCKED</p>
+<p>Biometric assertion succeeds</p>
+<p>Face ID attention verified / Fingerprint matches</p>
+<p>AUTHENTICATED</p>
+<p>Hardware unwrap of <code>K_{<b>health</b>}</code> and <code>K_{<b>tokens</b>}</code>; load active dashboard.</p>
+<p>LOCKED</p>
+<p>Biometric assertion fails</p>
+<p>Consecutive biometric failures <code>< 3</code></p>
+<p>LOCKED</p>
+<p>Haptic failure; increment biometric failure counter.</p>
+<p>LOCKED</p>
+<p>3rd consecutive biometric failure</p>
+<p>Consecutive biometric failures <code>== 3</code></p>
+<p>LOCKED</p>
+<p>Disable biometrics; enforce PIN input entry only.</p>
+<p>LOCKED</p>
+<p>Correct PIN entered</p>
+<p>Monotonic lockout delay expired</p>
+<p>AUTHENTICATED</p>
+<p>Hardware unwrap of keys; reset all failure counters to 0.</p>
+<p>LOCKED</p>
+<p>Incorrect PIN entered (Attempts 1–4)</p>
+<p>Monotonic attempt count <code>\le 4</code></p>
+<p>LOCKED</p>
+<p>Haptic error; increment hardware monotonic counter.</p>
+<p>LOCKED</p>
+<p>5th consecutive failed PIN</p>
+<p>Monotonic attempt count <code>== 5</code></p>
+<p>COOLDOWN_LOCKED</p>
+<p>Enforce hardware delay 00:01:00; display cooldown timer.</p>
+<p>LOCKED</p>
+<p>Failed PIN (Attempts 6–10)</p>
+<p>Monotonic attempt count <code>\in [6, 10]</code></p>
+<p>COOLDOWN_LOCKED</p>
+<p>Add +30s to delay; display explicit destruction warning card.</p>
+<p>LOCKED</p>
+<p>11th consecutive failed PIN</p>
+<p>Monotonic attempt count <code>== 11</code></p>
+<p>WIPED_SELF_DESTRUCT</p>
+<p>SELF-DESTRUCT: Revoke SEP keys; zero databases; reset app.</p>
+<p>AUTHENTICATED</p>
+<p>App backgrounded (Zero-Tolerance ON)</p>
+<p>zeroToleranceAppLock == true</p>
+<p>LOCKED</p>
+<p>Immediate memset_s zero-fill of RAM; purge UI buffers.</p>
+<p>AUTHENTICATED</p>
+<p>App backgrounded (Zero-Tolerance OFF)</p>
+<p>zeroToleranceAppLock == false</p>
+<p>GRACE_SUSPENDED</p>
+<p>Start 15-second hardware monotonic timer; mask OS window.</p>
+<p>GRACE_SUSPENDED</p>
+<p>App resumed within <code>\le 15<b>s</b></code></p>
+<p>Grace timer remaining <code>> 0<b>s</b></code></p>
+<p>AUTHENTICATED</p>
+<p>Cancel timer; restore active view; zero credential prompt.</p>
+<p>GRACE_SUSPENDED</p>
+<p>Grace timer reaches <code>15.001<b>s</b></code></p>
+<p>Elapsed time <code>> 15<b>s</b></code></p>
+<p>LOCKED</p>
+<p>Execute memset_s memory wipe; transition to hard lock.</p>
+<p>AUTHENTICATED</p>
+<p>Shoulder-surfer or tilt detected</p>
+<p>Sensitive medical view active</p>
+<p>OBSCURED_GAZEGUARD</p>
+<p>Assert high-depth blur in <code><80<b>ms</b></code>; freeze interaction.</p>
+<p>OBSCURED_GAZEGUARD</p>
+<p>Biometric scan or PIN confirmed</p>
+<p>User authentication matches</p>
+<p>AUTHENTICATED</p>
+<p>Remove blur overlay; restore active clinical view.</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<p>6.2 Domain 2: Proximity Exchange Transition Table</p>
+<p>Current State</p>
+<p>Event Trigger</p>
+<p>Guard Condition / Validation</p>
+<p>Target State</p>
+<p>Actions Executed</p>
+<p>IDLE</p>
+<p>User taps "Host Venue / Event"</p>
+<p>Master seed generated</p>
+<p>BEACON_BROADCASTING</p>
+<p>Instantiate in-memory <code>EMS</code>; display 30s rotating HMAC QR.</p>
+<p>IDLE</p>
+<p>User taps "Scan Check-In"</p>
+<p>Camera permission granted</p>
+<p>BEACON_SCANNING</p>
+<p>Launch minimal camera HUD; capture rotating QR in <code><300<b>ms</b></code>.</p>
+<p>IDLE</p>
+<p>NFC Direct Bump detected</p>
+<p>NFC Type-4 interface active</p>
+<p>P2P_HANDSHAKE_MUTUAL</p>
+<p>Execute X25519 key exchange; derive session token via BLAKE3.</p>
+<p>BEACON_SCANNING</p>
+<p>Rotating QR captured</p>
+<p>Valid HMAC-SHA256 signature</p>
+<p>POST_CHECKIN_ROUTING</p>
+<p>Derive session token; check user Post-Check-In setting.</p>
+<p>P2P_HANDSHAKE_MUTUAL</p>
+<p>Handshake completed</p>
+<p>Shared secret derived</p>
+<p>POST_CHECKIN_ROUTING</p>
+<p>Anchor to calendar date (YYYY-MM-DD); check setting.</p>
+<p>POST_CHECKIN_ROUTING</p>
+<p>Setting <code>==</code> Mode A (Fast)</p>
+<p>Fast Auto-Dismiss enabled</p>
+<p>COMMITTED_LEDGER_B</p>
+<p>Commit token to Ledger B with UNSPECIFIED tags; dismiss to Home.</p>
+<p>POST_CHECKIN_ROUTING</p>
+<p>Setting <code>==</code> Mode B (Modal)</p>
+<p>Immediate Modal enabled</p>
+<p>COMMITTED_LEDGER_B</p>
+<p>Present 2-tap bottom sheet; commit selected tags to Ledger B.</p>
+<p>POST_CHECKIN_ROUTING</p>
+<p>Setting <code>==</code> Mode C (Delayed)</p>
+<p>Delayed Reminder enabled</p>
+<p>COMMITTED_LEDGER_B</p>
+<p>Commit token; schedule silent local reminder in 1–2 hours.</p>
+<p>COMMITTED_LEDGER_B</p>
+<p>Venue beacon token committed</p>
+<p>Event duration specified</p>
+<p>VENUE_SESSION_ACTIVE</p>
+<p>Set auto-expiration timer; render discreet "Leave Event" card.</p>
+<p>VENUE_SESSION_ACTIVE</p>
+<p>User taps "Leave Event Early"</p>
+<p>Session active</p>
+<p>COMMITTED_LEDGER_B</p>
+<p>Clamp exposure interval to <code>[T_{<b>entry</b>}, T_{<b>exit</b>}]</code>; seal token.</p>
+<p>VENUE_SESSION_ACTIVE</p>
+<p>Event conclusion timestamp reached</p>
+<p>Event ends (multi-day/overnight)</p>
+<p>COMMITTED_LEDGER_B</p>
+<p>Anchor exposure interval to event conclusion date; seal token.</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<p>6.3 Domain 3: Clinical Ingestion Transition Table</p>
+<p>Current State</p>
+<p>Event Trigger</p>
+<p>Guard Condition / Validation</p>
+<p>Target State</p>
+<p>Actions Executed</p>
+<p>CLINICAL_IDLE</p>
+<p>User taps "Sync EHR Labs"</p>
+<p>User initiates MyChart login</p>
+<p>AUTH_FLOW_ACTIVE</p>
+<p>Launch ASWebAuthenticationSession directly to provider.</p>
+<p>AUTH_FLOW_ACTIVE</p>
+<p>OAuth callback completed</p>
+<p>Valid token exchange</p>
+<p>FHIR_INGESTION_RAM</p>
+<p>Fetch Observation/DiagnosticReport; hold in volatile RAM.</p>
+<p>FHIR_INGESTION_RAM</p>
+<p>Raw FHIR parsed</p>
+<p>Lab ECDSA signature valid</p>
+<p>SURGICAL_PII_PURGE</p>
+<p>Extract LOINC, result, date; execute memset_s zero-fill on PII.</p>
+<p>SURGICAL_PII_PURGE</p>
+<p>Pathogen is Syphilis</p>
+<p>Ingested LOINC is Syphilis</p>
+<p>SYPHILIS_ADJUDICATION_GATE</p>
+<p>Check treponemal vs nontreponemal (RPR) test components.</p>
+<p>SYPHILIS_ADJUDICATION_GATE</p>
+<p>Treponemal test only (TP-PA/EIA)</p>
+<p>No quantitative RPR titer</p>
+<p>COMMITTED_LEDGER_A</p>
+<p>Commit as antibody history; BLOCK outbound alerts.</p>
+<p>SYPHILIS_ADJUDICATION_GATE</p>
+<p>Quantitative RPR present</p>
+<p>No prior baseline in Ledger A</p>
+<p>SYPHILIS_ADJUDICATION_GATE</p>
+<p>Launch 1-question triage: "Treated for Syphilis in the past?"</p>
+<p>SYPHILIS_ADJUDICATION_GATE</p>
+<p>User selects "Treated in past"</p>
+<p>No 4-fold increase confirmed</p>
+<p>COMMITTED_LEDGER_A</p>
+<p>Abort alert; record titer as Baseline Serofast Anchor.</p>
+<p>SYPHILIS_ADJUDICATION_GATE</p>
+<p>User confirms "Never treated"</p>
+<p>Active de novo infection</p>
+<p>ATOMIC_DISAGGREGATION</p>
+<p>Authorize active clinical episode; proceed to disaggregation.</p>
+<p>SURGICAL_PII_PURGE</p>
+<p>Standard multi-panel STI test</p>
+<p>Non-syphilis or validated panel</p>
+<p>ATOMIC_DISAGGREGATION</p>
+<p>Parse discrete pathogen outcomes in atomic transaction.</p>
+<p>ATOMIC_DISAGGREGATION</p>
+<p>Inconclusive/Indeterminate result</p>
+<p>Result is EQUIVOCAL</p>
+<p>COMMITTED_LEDGER_A</p>
+<p>Commit with 14d re-test guidance; BLOCK outbound alerts.</p>
+<p>ATOMIC_DISAGGREGATION</p>
+<p>Mixed panel: 9 Negatives, 1 Positive</p>
+<p>Panel disaggregation valid</p>
+<p>COMMITTED_LEDGER_A</p>
+<p>Commit 9 negatives to anchors; launch episode for positive.</p>
+<p>CLINICAL_IDLE</p>
+<p>User opts out of automated sync</p>
+<p>Ledger C currently active</p>
+<p>LEDGER_C_PURGE</p>
+<p>Display warning dialog; confirm user intent.</p>
+<p>LEDGER_C_PURGE</p>
+<p>User confirms opt-out</p>
+<p>Confirmation tap verified</p>
+<p>CLINICAL_IDLE</p>
+<p>Overwrite Ledger C with zeros; revoke <code>K_{<b>auth</b>}</code>; unlink database.</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<p>6.4 Domain 4: Outbound Broadcast & Inbound Advisories Transition Table</p>
+<p>Current State</p>
+<p>Event Trigger</p>
+<p>Guard Condition / Validation</p>
+<p>Target State</p>
+<p>Actions Executed</p>
+<p>COMMITTED_LEDGER_A</p>
+<p>User initiates partner alert</p>
+<p>Active clinical episode present</p>
+<p>OUTBOUND_PREVIEW</p>
+<p>Render shame-free preview card (zero partner/token counts).</p>
+<p>OUTBOUND_PREVIEW</p>
+<p>User confirms "Publish Notice"</p>
+<p>Explicit user tap confirmed</p>
+<p>POW_SOLVING</p>
+<p>Solve client-side Hashcash PoW puzzle (~2s CPU load).</p>
+<p>POW_SOLVING</p>
+<p>PoW challenge solved</p>
+<p>PoW solution verified</p>
+<p>JITTER_QUEUED</p>
+<p>Check jitter toggle: Immediate vs Default (1–4h delay).</p>
+<p>JITTER_QUEUED</p>
+<p>Immediate toggle enabled</p>
+<p>User selected urgent bypass</p>
+<p>DISPATCHING_OHTTP</p>
+<p>Bypass jitter queue; dispatch encapsulated OHTTP packet immediately.</p>
+<p>JITTER_QUEUED</p>
+<p>Randomized jitter timer expires</p>
+<p>1–4 hour random delay elapsed</p>
+<p>DISPATCHING_OHTTP</p>
+<p>Encapsulate manifest; dispatch via OHTTP Relay Gateway.</p>
+<p>DISPATCHING_OHTTP</p>
+<p>HTTP 201 Created received</p>
+<p>Relay confirms publication</p>
+<p>BROADCAST_COMPLETE</p>
+<p>Mark tokens as BURNED for pathogen; render dignified text.</p>
+<p>CLINICAL_IDLE</p>
+<p>Background sync detects hash match</p>
+<p>Downloaded hash matches Ledger B</p>
+<p>ADVISORY_UNREAD</p>
+<p>Check quiet hours setting (Default: 10 PM – 8 AM).</p>
+<p>ADVISORY_UNREAD</p>
+<p>Match during quiet hours (non-PEP)</p>
+<p>Routine bacterial transmission</p>
+<p>ADVISORY_UNREAD</p>
+<p>Hold notification in local memory; schedule dispatch for 8:01 AM.</p>
+<p>ADVISORY_UNREAD</p>
+<p>Urgent prophylaxis match (PEP <code><72<b>h</b></code>)</p>
+<p>High-urgency transmission flag</p>
+<p>ADVISORY_UNREAD</p>
+<p>Bypass quiet hours; dispatch local camouflage alert immediately.</p>
+<p>ADVISORY_UNREAD</p>
+<p>User unlocks app via biometrics</p>
+<p>Biometric authentication passed</p>
+<p>ADVISORY_REVIEWED</p>
+<p>Transition advisory to reviewed; display clinical guidance.</p>
+<p>ADVISORY_REVIEWED</p>
+<p>User taps local clinic directory</p>
+<p>Clinic locator accessed</p>
+<p>ADVISORY_ACTION_LOGGED</p>
+<p>Log action in Ledger B; update advisory status.</p>
+<p>ADVISORY_ACTION_LOGGED</p>
+<p>User marks case resolved</p>
+<p>Clinical resolution confirmed</p>
+<p>ADVISORY_ARCHIVED</p>
+<p>Move advisory to local archive; preserve local audit trail.</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Flutter / Riverpod Code Architecture Contracts</li>
+</ol>
+<p>Below are the production-grade Dart data models, state classes, and Riverpod Notifier contracts governing implementation.</p>
+<p>7.1 Core Enums & Immutability Definitions</p>
+<p>/// PulseGuard Core Lifecycle States</p>
+<p>enum AppLockState {</p>
+<p>uninitialized,</p>
+<p>locked,</p>
+<p>authenticated,</p>
+<p>graceSuspended,</p>
+<p>obscuredGazeGuard,</p>
+<p>cooldownLocked,</p>
+<p>wipedSelfDestruct,</p>
+<p>}</p>
+<p>/// Proximity Check-In Routing Preferences</p>
+<p>enum PostCheckInMode {</p>
+<p>fastAutoDismiss,</p>
+<p>immediateModal,</p>
+<p>delayedReminder,</p>
+<p>}</p>
+<p>/// Outbound Jitter Dispatch Mode</p>
+<p>enum JitterDispatchPolicy {</p>
+<p>standardRandomizedJitter, // 1 to 4 hours random delay</p>
+<p>emergencyImmediateBypass, // Immediate dispatch for urgent PEP/Doxy-PEP</p>
+<p>}</p>
+<p>/// Inbound Advisory Action Lifecycle States</p>
+<p>enum AdvisoryStatus {</p>
+<p>unread,</p>
+<p>biometricUnlocked,</p>
+<p>clinicDirectoryViewed,</p>
+<p>actionLogged,</p>
+<p>archived,</p>
+<p>}</p>
+<p>7.2 App Lifecycle & Security Controller (Riverpod)</p>
+<p>import 'dart:async';</p>
+<p>import 'package:flutter_riverpod/flutter_riverpod.dart';</p>
+<p>class SecurityState {</p>
+<p>final AppLockState lockState;</p>
+<p>final bool zeroToleranceAppLock;</p>
+<p>final int failedBiometricAttempts;</p>
+<p>final int hardwareLockoutCooldownSeconds;</p>
+<p>final bool devModeEnabled;</p>
+<p>const SecurityState({</p>
+<p>required this.lockState,</p>
+<p>required this.zeroToleranceAppLock,</p>
+<p>required this.failedBiometricAttempts,</p>
+<p>required this.hardwareLockoutCooldownSeconds,</p>
+<p>required this.devModeEnabled,</p>
+<p>});</p>
+<p>SecurityState copyWith({</p>
+<p>AppLockState? lockState,</p>
+<p>bool? zeroToleranceAppLock,</p>
+<p>int? failedBiometricAttempts,</p>
+<p>int? hardwareLockoutCooldownSeconds,</p>
+<p>bool? devModeEnabled,</p>
+<p>}) {</p>
+<p>return SecurityState(</p>
+<p>lockState: lockState ?? this.lockState,</p>
+<p>zeroToleranceAppLock: zeroToleranceAppLock ?? this.zeroToleranceAppLock,</p>
+<p>failedBiometricAttempts: failedBiometricAttempts ?? this.failedBiometricAttempts,</p>
+<p>hardwareLockoutCooldownSeconds: hardwareLockoutCooldownSeconds ?? this.hardwareLockoutCooldownSeconds,</p>
+<p>devModeEnabled: devModeEnabled ?? this.devModeEnabled,</p>
+<p>);</p>
+<p>}</p>
+<p>}</p>
+<p>class SecurityController extends StateNotifier<SecurityState> {</p>
+<p>Timer? _graceTimer;</p>
+<p>Timer? _cooldownTimer;</p>
+<p>SecurityController()</p>
+<p>: super(const SecurityState(</p>
+<p>lockState: AppLockState.locked,</p>
+<p>zeroToleranceAppLock: true,</p>
+<p>failedBiometricAttempts: 0,</p>
+<p>hardwareLockoutCooldownSeconds: 0,</p>
+<p>devModeEnabled: false,</p>
+<p>));</p>
+<p>void handleAppPaused() {</p>
+<p>if (state.lockState != AppLockState.authenticated) return;</p>
+<p>if (state.zeroToleranceAppLock) {</p>
+<p>_executeImmediateMemoryPurge();</p>
+<p>state = state.copyWith(lockState: AppLockState.locked);</p>
+<p>} else {</p>
+<p>state = state.copyWith(lockState: AppLockState.graceSuspended);</p>
+<p>_graceTimer?.cancel();</p>
+<p>_graceTimer = Timer(const Duration(seconds: 15), () {</p>
+<p>_executeImmediateMemoryPurge();</p>
+<p>state = state.copyWith(lockState: AppLockState.locked);</p>
+<p>});</p>
+<p>}</p>
+<p>}</p>
+<p>void handleAppResumed() {</p>
+<p>if (state.lockState == AppLockState.graceSuspended) {</p>
+<p>_graceTimer?.cancel();</p>
+<p>state = state.copyWith(lockState: AppLockState.authenticated);</p>
+<p>}</p>
+<p>}</p>
+<p>void triggerGazeGuardShield() {</p>
+<p>if (state.lockState == AppLockState.authenticated) {</p>
+<p>state = state.copyWith(lockState: AppLockState.obscuredGazeGuard);</p>
+<p>}</p>
+<p>}</p>
+<p>void dismissGazeGuardWithAuth() {</p>
+<p>if (state.lockState == AppLockState.obscuredGazeGuard) {</p>
+<p>state = state.copyWith(lockState: AppLockState.authenticated);</p>
+<p>}</p>
+<p>}</p>
+<p>void recordFailedBiometric() {</p>
+<p>final newCount = state.failedBiometricAttempts + 1;</p>
+<p>state = state.copyWith(failedBiometricAttempts: newCount);</p>
+<p>}</p>
+<p>void _executeImmediateMemoryPurge() {</p>
+<p>// Invocations of native C-memory zeroization primitives via FFI</p>
+<p>// Wiping decrypted buffer caches and unmapping hardware key handles</p>
+<p>}</p>
+<p>}</p>
+<p>final securityProvider = StateNotifierProvider<SecurityController, SecurityState>((ref) {</p>
+<p>return SecurityController();</p>
+<p>});</p>
+<p>7.3 Triple-Ledger Synchronization & Clinical Ingestion Service</p>
+<p>abstract class ITripleLedgerManager {</p>
+<p>/// Commits a verified clinical lab outcome to Ledger A under K_health</p>
+<p>Future<void> commitClinicalRecord({</p>
+<p>required String loincCode,</p>
+<p>required String qualitativeResult,</p>
+<p>required DateTime specimenDate,</p>
+<p>required String accessionHash,</p>
+<p>String? detachedJwsSignature,</p>
+<p>});</p>
+<p>/// Ingests and routes proximity tokens to Ledger B under K_tokens</p>
+<p>Future<void> commitEncounterToken({</p>
+<p>required String tokenIdBlake3,</p>
+<p>required DateTime encounterDate,</p>
+<p>required String topology,</p>
+<p>});</p>
+<p>/// Persists OAuth credentials in Ledger C under K_auth (Opt-In Only)</p>
+<p>Future<void> saveEhrConnection({</p>
+<p>required String providerBaseUrl,</p>
+<p>required String encryptedRefreshToken,</p>
+<p>});</p>
+<p>/// Opt-Out Ceremony: Overwrites Ledger C with zeros and revokes K_auth</p>
+<p>Future<void> purgeLedgerC();</p>
+<p>}</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<ol>
+<li>Architectural Declaration & Verification</li>
+</ol>
+<p>This document represents the finalized, approved, and locked Mobile Client State Machine Specification & State Transition Matrix for the PulseGuard platform. All state definitions, timers, thresholds, clinical adjudication protocols, and database isolation boundaries detailed herein are binding for implementation.</p>
+<p>Executed and Confirmed:</p>
+<p>Josh Thatcher</p>
+<p>Founder, Senior System Architect & Lead Inventor</p>
+<p>Josh Thatcher, LLC / PNiX</p>
+<p>Chicago, Illinois, United States</p>
+<p>September 16, 2026</p>
+    </div>
+  </div>
+</body>
+</html>

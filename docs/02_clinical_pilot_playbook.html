@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseGuard™ Clinical Pilot Deployment Playbook & IRB Operational Kit | PulseGuard™</title>
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --surface: #ffffff;
+  --background: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --header-bg: #f1f5f9;
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--background);
+  line-height: 1.6;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.document-container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 48px 56px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+}
+
+.btn:hover { background: #f8fafc; border-color: #94a3b8; }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+
+h1 {
+  font-size: 24pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 0;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.doc-subtitle {
+  font-size: 13pt;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.metadata-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 32px 0;
+  font-size: 11pt;
+}
+
+.metadata-table th, .metadata-table td {
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.metadata-table th {
+  background-color: var(--header-bg);
+  color: var(--text-main);
+  width: 25%;
+  font-weight: 600;
+}
+
+.metadata-table td {
+  background-color: #ffffff;
+  color: var(--text-muted);
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 36px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+h3 {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+p, li {
+  font-size: 11pt;
+  color: #334155;
+  line-height: 1.7;
+}
+
+ul, ol { padding-left: 24px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 10.5pt;
+  page-break-inside: avoid;
+}
+
+table.data-table th, table.data-table td {
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.data-table th {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+table.data-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.callout {
+  background: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  padding: 16px 20px;
+  border-radius: 0 6px 6px 0;
+  margin: 20px 0;
+  font-size: 11pt;
+  color: #166534;
+}
+
+.callout-info {
+  background: #f0f9ff;
+  border-left: 4px solid #0284c7;
+  color: #0369a1;
+}
+
+.callout-warning {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 10pt;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+
+.badge-approved { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.badge-compliant { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+
+@media print {
+  body { background: white; padding: 0; }
+  .document-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+  .nav-bar { display: none; }
+  table.data-table { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+  @page { margin: 20mm 15mm; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="document-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Signoff Portal</span>
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        <span>Print / Save as PDF</span>
+      </button>
+    </div>
+
+    <h1>PulseGuard™ Clinical Pilot Deployment Playbook & IRB Operational Kit</h1>
+    <div class="doc-subtitle">Multi-Site Observational Protocol, e-Consent Workflows, and Clinical Standard Operating Procedures</div>
+
+    <table class="metadata-table">
+      <tr><th>Document Version</th><td>1.0.0-PROD (Clinical Submission Ready)</td></tr><tr><th>Classification</th><td>Clinical & Regulatory Operations / Confidential</td></tr><tr><th>Regulatory Determination</th><td><span class="badge badge-approved">45 CFR 46 Minimal Risk (Cat. 7)</span></td></tr><tr><th>Target Population</th><td>N = 6,500 across Academic, Municipal Clinic, and Venue Cohorts</td></tr><tr><th>Clinical Interventions</th><td>Air-Gapped Lab Ingestion, Smart Truncation, Camouflage Triage Hub</td></tr><tr><th>Lead System Architect</th><td>Josh Thatcher</td></tr><tr><th>Date of Record</th><td>September 2026</td></tr>
+    </table>
+
+    <div class="content-body">
+      
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">﻿PulseGuard™ Clinical Pilot Deployment Playbook & IRB Operational Kit</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Version: 1.0.0-PROD</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Classification: Clinical & Regulatory Operations / Confidential</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Date: September 2026</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Target Sites: Municipal Sexual Health Clinics, Academic Health Centers, Community Wellness Venues</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Executive Summary & Regulatory Rationale</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> The Public Health Imperative</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Sexually transmitted infections (STIs)—specifically Chlamydia trachomatis, Neisseria gonorrhoeae, and Treponema pallidum (Syphilis)—continue to experience record transmission rates across urban centers in the United States. While clinical diagnostic technologies (such as rapid automated NAAT assays) have advanced significantly, contact notification remains the critical bottleneck in transmission interruption.</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Traditional contact tracing methodologies rely heavily on:</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Named Partner Elicitation by Public Health Workers (DIS): Patients are asked to disclose legal names, phone numbers, and physical descriptions of intimate partners, creating intense fear of surveillance, stigma, and social retribution.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Patient-Delivered Partner Notification (PDNP): Patients are instructed to inform partners manually via SMS or phone calls. In casual, non-monogamous, or anonymized encounters (e.g., dating applications, bathhouses, festivals), patients often possess no contact information or fear hostile confrontations.</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">PulseGuard™ resolves this structural failure by deploying decentralized, zero-knowledge contact tracing and air-gapped clinical ingestion. By decoupling peer encounter logging from identity and cryptographically guaranteeing zero PII retention, PulseGuard eliminates the psychological and systemic friction of partner notification.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Regulatory & Institutional Review Board (IRB) Classification</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Under the U.S. Federal Policy for the Protection of Human Subjects (45 CFR 46 - The Common Rule):</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Minimal Risk Determination (45 CFR 46.102(j)): The probability and magnitude of physical, psychological, or social harm anticipated in this pilot are no greater than those ordinarily encountered in daily life or during the performance of routine physical or psychological examinations (specifically, routine diagnostic STI testing and voluntary notification).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Expedited Review Category 7: Research on individual or group characteristics or behavior, where the research does not involve stress greater than routine daily clinical interactions.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Superior Data Protection Invariant: Unlike traditional digital health studies where central databases create risk of subpoena or data breach, PulseGuard's zero-custody, triple-ledger local architecture ensures zero participant identifying data is ever transmitted to or stored by the research team or relay infrastructure.</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">IRB Study Protocol & Pilot Trial Design</p>
+<h3 style="color:#334155; font-size:13pt; margin-top:18px; margin-bottom:8px; font-family:sans-serif;">Pilot Trial Operational Phases & Enrollment Architecture</h3>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Trial Phase</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Focus Area</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Operational Protocol</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Target Metric & Safeguard</th>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>1. Multi-Site Cohorts</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Patient Population</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Cohort A: Academic Health Service (1,500 students)<br>Cohort B: Municipal Clinic (2,000 patients)<br>Cohort C: Community Venues (10 venues / 3,000 patrons)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Broad representative demographic coverage ($N = 6,500$)</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>2. Consent Ceremony</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Enrollment Protocol</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Interactive e-Consent with Zero-Knowledge disclosure<br>12-Word BIP-39 Cold Storage Setup<br>Dual-PIN Configuration (Master PIN + Duress Decoy PIN)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Minimal Risk under 45 CFR 46.102(j); zero central identifiers</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>3. Live Operations</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Intervention Window (12 Wks)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Mutual Pairing (Optical 30s QR / NFC Tap / Venue Beacons)<br>Air-Gapped Lab Ingestion (SMART Health Card / FHIR)<br>Smart Truncation & Jittered OHTTP Broadcast (1–4h Poisson Jitter)<br>Local Blind Matching & Camouflage Triage</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Zero IP leakage; Poisson traffic decorrelation</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>4. Endpoints</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Clinical Validation</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Primary 1: Reduction in secondary transmission window (Days)<br>Primary 2: Partner re-testing rate (NAAT uplift)<br>Safety: 0% data breach / 0 privacy incidents<br>Usability: System Usability Scale (SUS > 85)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Statistically verified transmission disruption</td>
+</tr>
+</table>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Study Population & Inclusion Criteria</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Target Sample Size: $N = 6,500$ across three pilot cohorts over a 12-week observational period.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Inclusion Criteria:</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Individuals aged 18 years or older.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Active ownership of an iOS (iOS 16+) or Android (Android 12+) smartphone equipped with hardware security enclaves (Apple Secure Enclave or Android StrongBox/TEE).</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Patient seeking routine or diagnostic sexual health screening, or patron attending participating community partner venues.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>4.</b> Capacity to provide informed consent.</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Exclusion Criteria:</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Inability to comprehend study procedures or operate mobile application.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Device lacking hardware-backed cryptographic enclave capabilities.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Primary & Secondary Endpoints</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Primary Endpoint 1 (Time-to-Notification Acceleration): Reduction in median days from laboratory specimen verification to partner notification receipt compared to standard public health DIS contact tracing benchmarks (Target: $<24        ext{ hours}$ vs historical $8        ext{–}14        ext{ days}$).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Primary Endpoint 2 (Confirmatory Re-Testing Yield): Percentage of notified partners who undergo verified diagnostic re-testing within 14 days of receiving an exposure alert (Target: $\ge 45%$ uplift over passive notification).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Primary Safety Invariant (Zero Data Breach Incidents): Rigorous verification that across $N = 6,500$ participants, exactly $0$ instances of PII leakage, reverse identity correlation, or unconsented data disclosures occur.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Secondary Endpoint (Psychological Stigma Mitigation): Measured via pre- and post-intervention validated stigma assessment scales (Social Impact Scale / Berger HIV/STI Stigma Scale adapted for STIs).</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Clinical Site Standard Operating Procedures (SOPs)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">SOP-PG-01: Laboratory Ingestion via SMART Health Cards</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Purpose: Establish standardized protocol for clinical staff to issue cryptographically signed, verifiable lab results directly to patient devices.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Scope: All CLIA-certified testing sites participating in the PulseGuard pilot.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Procedure:</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Specimen Collection & Rapid/Automated NAAT Processing:</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Perform standard laboratory testing for Chlamydia, Gonorrhea, Trichomoniasis, Syphilis, and HIV.</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> VCI-Compliant SMART Health Card Generation:</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The clinical laboratory information management system (LIMS) generates a signed FHIR Bundle payload conforming to the SMART Health Card specification.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The payload is signed using the laboratory's ES256 private key and encoded into a standard numeric URI string (shc:/567628...).</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Patient Mobile Ingestion:</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Patient opens PulseGuard and selects "Ingest Lab Results".</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The mobile camera scans the paper or screen QR code.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The internal parser validates the cryptographic signature against the state public key registry.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Sub-10ms In-Memory PII Shredder Execution: Patient legal name, date of birth, medical record number (MRN), and clinic address are expunged from volatile RAM in $<10        ext{ms}$.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Multi-Panel Disaggregation: Verified negative results are auto-committed to negative_test_anchors in Ledger A. Verified positives spawn an ACTIVE episode in clinical_episodes.</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">SOP-PG-02: Syphilis Dual-Marker Adjudication & Serofast Protocol</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Clinical Problem: Treponemal antibodies (T. pallidum IgG/TP-PA) remain positive for life following initial infection, causing false alarm exposure notifications if ingested blindly.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Clinical Procedure:</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Treponemal-Only Result (TP-PA/EIA):</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">If an isolated treponemal test is scanned, PulseGuard classifies it as historical serological memory.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Outbound Broadcast Safety Gate: Outbound notifications are strictly blocked. The record is committed as non-infectious serological history.</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Quantitative Non-Treponemal Titer (RPR / VDRL - LOINC 20507-0):</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">If an RPR titer is detected (e.g., 1:8, 1:16):</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The mobile client checks for a pre-existing Baseline Serofast Anchor in Ledger A.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">If No Baseline Exists: An interactive clinical triage modal asks: "Have you completed curative treatment for Syphilis in the past?"</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">If Prior Treatment Confirmed: The titer is recorded as the user's Baseline Serofast Anchor. Broadcast is aborted.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">If Never Treated (or $\ge 4$-fold titer increase, e.g. 1:4 to 1:16): Diagnosed as active de novo infection; initiates outbound transmission lookback window calculation.</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">SOP-PG-03: SMART-on-FHIR Direct Provider Portal Integration</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Purpose: Operational procedure for linking patient portals (Epic MyChart, Cerner Millennium, Labcorp).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Security Constraints:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Strict adherence to Ledger C Isolation: No medical records or LOINC codes may ever be written to Ledger C.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">OAuth2 refresh tokens must be hardware-wrapped using the device Secure Enclave.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Access tokens exist in RAM strictly for $<10        ext{ms}$ during network requests and are immediately zeroed using memset_s.</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Community Venue & Event Space Deployment Kit</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">SOP-PG-04: Rotating Venue Proximity Beacons</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Purpose: Enable patrons of nightlife venues, bathhouses, sex clubs, and festival grounds to log anonymous presence without providing check-in names, phone numbers, or credit card records.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Hardware & Display Requirements:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Option A (Dynamic Display Kiosks): Wall-mounted OLED/LCD tablets running the PulseGuard Venue Terminal application. Displays a high-contrast QR code that re-generates every 30 seconds based on the venue's HMAC master seed and current Unix epoch: $$        ext{BeaconToken} =         ext{HMAC-SHA256}(K_{        ext{venue}},         ext{"PulseGuard-Venue-v1"} \parallel \lfloor         ext{timestamp} / 30 floor)$$</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Option B (BLE Hardware Beacons): Nordic Semiconductor nRF52840 BLE transmitters broadcasting non-connectable advertising packets rotating every 30 seconds.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Egress Auto-Sealing Protocol:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">When a patron scans into a venue, the app records an ingress timestamp.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">When the patron leaves the venue's physical vicinity or taps an exit kiosk, the departure timestamp is auto-sealed in Ledger B, clamping exposure liability strictly to actual physical co-presence.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Host Operator Legal & Immunity Agreement:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Participating venue hosts execute an operational agreement certifying that the venue terminal maintains zero persistent storage, does not connect to guest Wi-Fi networks, and retains no logs of guest interactions.</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Psychological Safety, Crisis Escalation & Telehealth Triage</p>
+<h3 style="color:#334155; font-size:13pt; margin-top:18px; margin-bottom:8px; font-family:sans-serif;">Exposure Notification Display Modes & Psychological Triage Matrix</h3>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Notification Mode</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Display Title & Content</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Trigger / Authentication Condition</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Clinical & Psychological Safeguard</th>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Mode 1: Direct</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">"PulseGuard: Health Advisory — Pathogen & Window Details"</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Explicit opt-in by user desiring immediate clinical transparency</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Instant routing to Confirmed Clinical Triage Hub</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Mode 2: Discreet (Default)</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">"Health Reminder: Routine Wellness Check Available"</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">System default for privacy preservation in social environments</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Unlocks full pathogen and clinical window upon biometric verification</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Mode 3: Decoy Camouflage</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">"System Alert: Local Device Storage Optimization Available"</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">High-privacy environments / shared device usage</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Requires Master PIN unwrap; Decoy PIN opens benign Wellness Twin</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>Triage Pathways</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">1. Window Calculator (Transmission bounding)<br>2. Clinic Finder (Free local NAAT testing)<br>3. Crisis Support (Crisis Text Line 741741 integration)<br>4. Duress Decoy Shield (Zero trace of exposure)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Integrated support mitigating psychological distress</td>
+</tr>
+</table>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> In-App Emotional & Psychological Triage Protocol</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Receiving an STI exposure alert can induce immediate acute anxiety, shame, and fear of relationship conflict. PulseGuard implements an empathetic, clinical support protocol:</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Zero Guilt Framing: Notifications utilize non-judgmental, scientifically neutral language emphasizing proactive wellness and routine preventative maintenance.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Deterministic Incubation Guidance: The user is immediately shown the pathogen's specific biological incubation period (e.g., "Testing immediately today may produce a false negative. For Chlamydia, optimal NAAT diagnostic sensitivity occurs between Day 7 and Day 14 post-exposure").</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Out-of-Band Crisis Escalation: Embedded, one-touch connection to national counseling services (e.g., CDC-INFO, Crisis Text Line 741741, The Trevor Project) using anonymized tel-link dispatch.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Intimate Partner Violence (IPV) & Anti-Coercion Protocol</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">For participants residing with abusive or controlling partners, device inspection is a severe physical safety threat:</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The Duress PIN Trigger: If coerced into unlocking the phone, entering the designated Duress PIN (e.g., 999999) instantly displays the Decoy Wellness Journal.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Zero Suspicion Interface: The decoy interface displays genuine-looking sleep, water, and fitness habits, with no error messages, missing data warnings, or cryptographic prompts.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Permanent Self-Destruct Safeguard: If an attacker attempts brute-force physical entry, Attempt 11 immediately zero-fills all databases via hardware monotonic counters.</li>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Pilot Data Governance & Monitoring Plan</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Zero-Knowledge Statistical Aggregation</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">To evaluate trial success without collecting personal data, the pilot implements Privately Aggregated Statistics via Secure Multi-Party Computation (MPC) or differential privacy noise addition:</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Only gross bucket totals (e.g., total manifests published in Chicago MSA, total Hashcash nonces verified) are recorded on the OHTTP Relay.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The relay server does not log IP addresses (RFC 9458 OHTTP gateway strips source IPs).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Zero analytics SDKs (Google Analytics, Firebase, Mixpanel) are permitted in the mobile client binary.</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Independent Data Safety & Ethics Board (DSEB)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">An independent board comprised of an infectious disease clinician, an epidemiologist, a community sexual health advocate, and a cryptographic security auditor will convene bi-weekly during the 12-week trial to review:</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Re-testing compliance rates and laboratory linkage efficacy.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Adverse psychological reports or support hotline volume.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Cryptographic relay audit logs confirming complete absence of IP or metadata leakage.</p>
+
+    </div>
+  </div>
+</body>
+</html>

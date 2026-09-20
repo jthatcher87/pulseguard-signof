@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseGuard™ Clinical Confidentiality & Transmission Logic Guide | PulseGuard™</title>
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --surface: #ffffff;
+  --background: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+  --border-subtle: #e2e8f0;
+  --header-bg: #f1f5f9;
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--background);
+  line-height: 1.6;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+.document-container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 48px 56px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text-main);
+  transition: all 0.15s ease;
+}
+
+.btn:hover { background: #f8fafc; border-color: #94a3b8; }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+
+h1 {
+  font-size: 24pt;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 0;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.doc-subtitle {
+  font-size: 13pt;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.metadata-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 32px 0;
+  font-size: 11pt;
+}
+
+.metadata-table th, .metadata-table td {
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.metadata-table th {
+  background-color: var(--header-bg);
+  color: var(--text-main);
+  width: 25%;
+  font-weight: 600;
+}
+
+.metadata-table td {
+  background-color: #ffffff;
+  color: var(--text-muted);
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 36px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+h3 {
+  font-size: 13pt;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+p, li {
+  font-size: 11pt;
+  color: #334155;
+  line-height: 1.7;
+}
+
+ul, ol { padding-left: 24px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+
+table.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 10.5pt;
+  page-break-inside: avoid;
+}
+
+table.data-table th, table.data-table td {
+  border: 1px solid var(--border);
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.data-table th {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+table.data-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.callout {
+  background: #f0fdf4;
+  border-left: 4px solid #16a34a;
+  padding: 16px 20px;
+  border-radius: 0 6px 6px 0;
+  margin: 20px 0;
+  font-size: 11pt;
+  color: #166534;
+}
+
+.callout-info {
+  background: #f0f9ff;
+  border-left: 4px solid #0284c7;
+  color: #0369a1;
+}
+
+.callout-warning {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  color: #92400e;
+}
+
+.code-block {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 10pt;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9pt;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+
+.badge-approved { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.badge-compliant { background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+
+@media print {
+  body { background: white; padding: 0; }
+  .document-container { border: none; box-shadow: none; padding: 0; max-width: 100%; }
+  .nav-bar { display: none; }
+  table.data-table { page-break-inside: avoid; }
+  h2, h3 { page-break-after: avoid; }
+  @page { margin: 20mm 15mm; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="document-container">
+    <div class="nav-bar">
+      <a href="../index.html" class="btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Back to Signoff Portal</span>
+      </a>
+      <button onclick="window.print()" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        <span>Print / Save as PDF</span>
+      </button>
+    </div>
+
+    <h1>PulseGuard™ Clinical Confidentiality & Transmission Logic Guide</h1>
+    <div class="doc-subtitle">Biological Incubation Bounding, Smart Truncation, and Syphilis Dual-Marker Adjudication</div>
+
+    <table class="metadata-table">
+      <tr><th>Document Version</th><td>1.0.0-CLINICAL</td></tr><tr><th>Classification</th><td>Clinical Decision Support & Transmission Engineering</td></tr><tr><th>Epidemiological Baseline</th><td>CDC STI Treatment Guidelines (60-Day, 90-Day, 365-Day Windows)</td></tr><tr><th>Key Innovations</th><td>Smart Truncation via Negative Anchors, Syphilis Serofast Baselines</td></tr><tr><th>Author / Architect</th><td>Josh Thatcher (Josh Thatcher, LLC / PNiX)</td></tr><tr><th>Date of Record</th><td>September 2026</td></tr>
+    </table>
+
+    <div class="content-body">
+      
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">﻿Listen to this tabPulseGuard: App Development Architecture & Strict Confidentiality Guide</p>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Executive Overview & Product Core Definition</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">The Core Architectural Problem</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Traditional public health contact tracing and partner notification systems for sexually transmitted infections (STIs) fail due to four systemic market gaps:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> The "Contact Info Gap": In anonymous, casual, or nightlife environments (e.g., festivals, private gatherings, bathhouses, sex-positive venues), participants rarely exchange personal contact details, legal names, or phone numbers. If an infection is diagnosed weeks later, notifying partners is impossible under conventional methods.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Cognitive Recall & Diagnostic Window Failure: Human memory is fallible; individuals forget dates, miscalculate variable pathogen incubation periods, or selectively omit partners due to substance use or anxiety.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> Social Stigma & Confrontation: Direct personal disclosure carries severe emotional friction, fear of social ostracization, and potential interpersonal conflict, causing people to delay or skip partner notification.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>4.</b> Venue & Host Liability Trap: Organizers of sex-positive events and nightlife venues face liability and community panic if they attempt to notify attendees via unsegmented broadcast lists or guest registries.</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Target Cohorts & Phased Rollout</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">PulseGuard addresses high-density social environments through a structured three-wave adoption strategy:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Cohort 1 — LGBTQ+ & Queer Communities (Initial Wedge): High baseline health literacy, proactive routine testing cadences (e.g., quarterly PrEP and Doxy-PEP monitoring), and established community-care norms.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Cohort 2 — Sex-Positive, Kink & Lifestyle Networks: Communities with formalized consent frameworks, vetting protocols, and an urgent demand for zero-judgment, collective harm-reduction infrastructure.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Cohort 3 — Colleges & University Campuses: High-density social environments seeking discreet, confidential sexual wellness tools free from campus surveillance.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Rollout Waves:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Wave 1 (Agile / Low Friction): 1-on-1 private encounters and closed social gatherings.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Wave 2 (Semi-Public): Commercial venues, nightlife clubs, bathhouses, and dedicated lifestyle spaces.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Wave 3 (High-Density / Offline-Resilient): Festivals and large multi-day events operating over decentralized local verification meshes.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Unique Value Proposition (UVP) & Brand Identity</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Core UVP: "Halting community STI transmission at the speed of modern communication through 100% anonymous, decentralized tracing."</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Product Tagline: "Anonymous check-ins. Automated clinical window alerts. Zero identity leaks, zero stigma."</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">North Star Objective: Drive early asymptomatic detection and clinical intervention prior to secondary transmission, ensuring complete personal anonymity while eliminating notification friction.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Presentation Layer: Flutter / Dart / Material 3 with Ambient Privacy Shields including Neural GazeGuard (NPU), Headless Zero-UI, and Data Cloak.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Volatile Memory Matching Engine: Business and matching logic resides in volatile RAM via the Ephemeral Risk Evaluation Engine.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Hardware Security Module (HSM) Boundary: Utilizes Apple Secure Enclave (SEP) and Android StrongBox Keymaster to derive health and token keys.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Ledger A: SQLCipher Medical Vault</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Ledger B: SQLCipher Encounter Vault</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• LOINC Pathogen Codes</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Diagnostic Values (Positive/Detected)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Specimen Effective Date</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Detached Lab Signatures</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">ZERO Relational Link to Tokens</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Dynamic Check-in Tokens</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Ephemeral Timestamps</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Prevention Context (PrEP, Doxy-PEP)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">• Vector Context (Top/Bottom/Side)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">ZERO Relational Link to Health Data</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Technical Architecture & On-Device Security Stack</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Core Framework & Hardware Isolation</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Cross-Platform Mobile Client: Built on Flutter / Dart implementing Material 3 design tokens and reactive state management (Riverpod / Bloc).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">On-Device Encrypted Storage: Utilizes SQLite compiled with SQLCipher in Write-Ahead Logging (WAL) mode, encrypted with AES-GCM-256.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Hardware-Backed Key Derivation: Cryptographic master keys are derived directly from the Apple Secure Enclave Processor (SEP) on iOS and Android StrongBox / Keymaster on Android. Master keys are never written to flash storage or exposed to the application runtime.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Dual-Enclave Ledger Separation (Zero Foreign Keys)</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">To neutralize relational database introspection attacks or memory-dump forensics:</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Ledger A (Clinical History Vault): Encrypted with hardware key $K_{\text{health}}$. Stores verified LOINC diagnostic codes, qualitative test results, specimen collection dates, and detached lab signatures. It contains zero references to encounter tokens, partner identifiers, or geolocation.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Ledger B (Ephemeral Encounter Vault): Encrypted with hardware key $K_{\text{tokens}}$. Stores dynamic check-in tokens, timestamps, duration bounds, preventative regimens, and anatomical transmission vectors. It contains zero references to medical diagnoses or user identity.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Zero Foreign Keys: There are no foreign keys, relational indices, or join tables linking Ledger A to Ledger B. Correlation between an infection window and past encounter tokens occurs exclusively inside volatile RAM during risk evaluation and is purged immediately.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Air-Gapped Zero-PII Ingestion Pipeline</p>
+<h3 style="color:#334155; font-size:13pt; margin-top:18px; margin-bottom:8px; font-family:sans-serif;">Operational Architecture: Air-Gapped Zero-PII Ingestion Pipeline</h3>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Step</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Architecture Tier</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Transaction Mechanics</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Security & Privacy Guarantee</th>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>1. Direct TLS</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Client to EHR/Lab API</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Patient initiates mutual TLS 1.3 session directly with Epic/Quest/LabCorp</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Corporate relay completely bypassed; zero server proxying</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>2. Volatile Triage</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Device Volatile RAM</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Raw FHIR JSON arrives in memory; signature verified against VCI registry</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Attribute filtering extracts only LOINC, result, and date</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>3. Memory Shredding</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Device Volatile RAM</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Compiler-enforced `memset_s` binary zero overwrite of patient identifiers</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Sub-10ms destruction of Name, DOB, MRN, Clinic, OAuth tokens</td>
+</tr>
+<tr style="border-bottom:1px solid #e2e8f0;">
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;"><b>4. Enclave Commit</b></td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Local SQLite (Ledger A)</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Non-identifying record committed to SQLCipher encrypted storage</td>
+<td style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#ffffff;">Encrypted under hardware key $K_{\text{health}}$; zero PHI written to flash</td>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">(ASWebAuthenticationSession)                                    (HL7 FHIR / SMART API)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Receives Raw FHIR Payload in Volatile RAM</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">++</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">VOLATILE MEMORY (RAM)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Raw Ingestion Payload:</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Patient Name: "Jane Doe"       > [ ZERO-OUT / PURGE ]</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Date of Birth: "1994-03-12"    > [ ZERO-OUT / PURGE ]</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- MRN: "98124"                   > [ ZERO-OUT / PURGE ]</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Clinic / Org: "City Health"    > [ ZERO-OUT / PURGE ]</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- OAuth Access Token             > [ ZERO-OUT / PURGE ]</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Retained Non-PII Attributes (<10ms):</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- LOINC Code: 43304-5 (Chlamydia trachomatis NAAT)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Diagnostic Result: Positive / Detected</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Specimen Draw Date: 2026-08-28</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Detached JWS Signature (ECDSA Curve P-256)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">++</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> Direct Write to Isolated Hardware Storage</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Ledger A: Local Medical Log ] (Encrypted via K_health)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">ZERO PII Written to Disk  |  * ZERO PulseGuard Server Intermediaries</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Standards-Based Healthcare Integration</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">SMART on FHIR (Epic Systems, Cerner/Oracle, Athenahealth): Connects via OAuth 2.0 / OpenID Connect within secure system webviews (ASWebAuthenticationSession on iOS, Custom Tabs on Android), querying standardized HL7 FHIR Observation and DiagnosticReport resources.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">SMART Health Cards (Quest Diagnostics, LabCorp, State Health Registries): Ingests digital verifiable credentials formatted as compact JSON Web Signatures (JWS) via scanned 2D QR codes or .smart-health-card files, verified 100% offline using public keys from the official VCI registry.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Aggregator Bridges: Interfaces directly with consumer health bridges (Health Gorilla, Particle Health, 1upHealth, and Apple HealthKit).</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Sub-10ms Volatile RAM Surgical PII Shredder</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> Direct-to-Device TLS: Client network requests route directly between the mobile device and the diagnostic provider's API. PulseGuard corporate servers never touch or proxy the session.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> In-Memory Triage & Verification: The raw FHIR payload arrives in volatile RAM. The signature is verified against the lab's public key, and non-identifying attributes are extracted: LOINC code, diagnostic result (Positive), and specimen collection timestamp.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> RAM Zero-Out Protocol: All identifying data (Patient.name, Patient.birthDate, Patient.telecom, Patient.address, MRN, Provider.name, and the OAuth access token) are overwritten with binary zeros (memset_s) and deallocated in $<10\text{ ms}$.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>4.</b> Persistent Isolation: Only non-identifying diagnostic attributes and the detached signature are committed to Ledger A. Zero Protected Health Information (PHI) is ever written to disk.</p>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Regulatory Exemption & Legal Liability Shield</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">HIPAA Covered-Entity Exemption: Because PulseGuard servers never receive, transmit, store, or process Protected Health Information (PHI), the entity is neither a HIPAA Covered Entity nor a Business Associate under 45 C.F.R. § 160.103. The app operates under consumer-directed digital health guidelines regulated by the FTC.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Subpoena & Breach Immunity: In the event of legal process, subpoena, or server seizure, central relays contain no personal identities, IP addresses, encounter logs, or medical records.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Section 230 Protection: Under 47 U.S.C. § 230, the operating entity functions as an interactive computer service provider, shielding it from civil liability regarding user-submitted reports while enforcing cryptographic and rate-limiting abuse guardrails.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Decentralized Cryptographic Protocols & Verification</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">DECENTRALIZED EXPOSURE & MATCHING TOPOLOGY</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> ENCOUNTER STAGE (1-on-1 or Venue Entry)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Host / Venue Beacon                     Attendee / Partner Device</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Generates Master Seed</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;"></th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Scans QR via Quick HUD</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Rotates every 30-60s:</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">--(Optical)-></th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Computes Shared Token</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">HMAC-SHA256(Seed, Time)</th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;"></th>
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">Stores in Ledger B</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">(Zero Attendee Records Kept)            (Zero PII / Zero Geolocation)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> ATTESTATION & ADVISORY BROADCAST</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Positive User Device</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">1. Extracts relevant tokens within clinical lookback window</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">2. Computes BLAKE3 hashes: { BLAKE3(Token_1), BLAKE3(Token_2) }</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">3. Strips PII block from Lab JWS (Detached ES256 Signature)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">(Tor / Oblivious HTTP Relay + Chaff Traffic)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">++</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">STATELESS PUBLIC BULLETIN RELAY</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Verifies Lab ES256 Signature against Public Trust Key</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Marks Advisory: "Lab-Verified" (Zero Knowledge of User)</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">- Publishes Ephemeral Expiring Hashes</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">++</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">(Background Batch Sync to ALL Devices)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> BLIND CLIENT-SIDE MATCHING</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Peer Receiving Device</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">1. Downloads global batch of anonymous BLAKE3 hashes</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">2. Executes local join: Downloaded Hashes vs. Local Ledger B</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">3. IF Match Found -> Evaluates Vector & Incubation Window</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">4. Triggers OS Notification: "New health data to review"</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">(Server NEVER knows which devices matched or who received alerts)</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Rotating Beacons & Handshakes</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Ephemeral Event Master Seeds (EMS): In group/venue settings, the host creates an in-memory master seed valid only for the event duration (4–8 hours).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">30-Second Rotating HMAC Beacons: The host screen displays a dynamic QR code rotating every 30 seconds: $$\text{Token}_t = \text{HMAC-SHA256}(EMS, \lfloor \text{Timestamp}_t / 30 \rfloor)$$</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Zero Host Logging: The host device stores zero attendee tokens, logs no device IDs, and keeps no guest list. Attendees derive and store their own tokens in Ledger B.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Detached JWS Laboratory Signatures</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The Verification Paradox: How to prove a test result is authentic without linking the patient's identity to the broadcast.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Detached Signature Protocol (RFC 7515): The client strips the identifying patient block from the lab's SMART Health Card and retains only the cryptographic assertion: $$\text{Signature} = \text{Sign}{K{\text{lab}}}(\text{Digest}(\text{LOINC} \mathbin{\Vert} \text{Result} \mathbin{\Vert} \text{Date}))$$</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The public relay verifies the laboratory's ECDSA ES256 public key against the VCI trust registry, issuing an immutable 🛡️ Lab-Verified Clinical Notice trust badge with mathematical certainty and zero knowledge of user identity.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Stateless Relays & Anonymous Transport</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">BLAKE3 Hash Manifests: The client hashes all encounter tokens falling within the clinical lookback window using BLAKE3: $$\text{Manifest} = { \text{BLAKE3}(\text{Token}_1), \text{BLAKE3}(\text{Token}_2), \dots, \text{Pathogen_Code}, \text{Detached_Signature} }$$</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">OHTTP & Tor Relays: Requests route through Oblivious HTTP (OHTTP) or Tor proxies, stripping client IP addresses, device user-agents, and ISP metadata.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Traffic Obfuscation: The client introduces random transmission jitter (1–4 hours) and injects dummy (chaff) packets, neutralizing traffic-correlation attacks.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Local-Only Blind Matching</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Stateless Broadcast Bulletin: The central relay functions as a stateless, append-only message board.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Client-Side Private Intersection: All client devices periodically fetch newly published manifest hashes in the background. Comparison between downloaded hashes and local encounter tokens occurs entirely on the user's phone inside Ledger B.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Zero-Knowledge Alerting: The central server is never informed when a match occurs. If a match is detected locally, the OS issues an ambient notification ("There is new health data to review"), requiring biometric unlock to inspect the clinical advisory.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Ambient UX & Physical Device Privacy</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">The Wellness Twin (Dual-Persona Architecture): Operates outwardly as a functional health utility (circadian rhythms, hydration, and sleep-cycle tracking). Access to the protected sexual health portal is gated behind ambient, non-visual gestures (e.g., tapping specific data nodes on a metric chart).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Neural GazeGuard: Uses front-facing camera inputs processed via on-device neural engines (Apple Neural Engine / Android NPU) to detect screen tilt or unauthorized secondary faces. If an over-the-shoulder viewer is detected, sensitive diagnostic views transition to frosted glass or abstract geometry in under 80 milliseconds.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Headless Zero-UI Scanner: Enables check-ins via an OS-level Quick Settings Tile, iOS Action Button, or Dynamic Island Live Activity. A minimal camera HUD captures dynamic check-in QR codes in under 300 milliseconds and terminates without launching the main application UI.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Generative Data Cloak: Translates diagnostic states and transmission windows into evolving, ambient particle physics visualizations, eliminating overt medical terminology from default screens.</li>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<hr style="border:0; border-top:1px solid #cbd5e1; margin:24px 0;">
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Strict Intellectual Property & Confidentiality Roadmap</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<table style="width:100%; border-collapse:collapse; margin:20px 0; font-size:10.5pt; border:1px solid #cbd5e1; font-family:sans-serif;">
+<tr style="border-bottom:1px solid #e2e8f0;">
+<th style="padding:10px 14px; text-align:left; border:1px solid #cbd5e1; background-color:#f1f5f9; font-weight:bold; color:#0f172a;">5-PHASE IP RIGHTS PRESERVATION PIPELINE</th>
+</tr>
+</table>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Phase 1: Environment ]  →  Zero Data Retention (ZDR) & Enterprise AI Config</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Phase 2: Conception ]   →  Architecture Decision Records (ADRs) & Human Conception Logs</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Phase 3: Codebase ]     →  Granular Git Audit Trail & Automated SCA License Scanning</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Phase 4: Branding ]     →  USPTO TESS Clearance (Class 009/042) & Non-Collision Audits</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">[ Phase 5: Filings ]      →  Pre-Release Provisional Patents & Intent-to-Use Trademarks</p>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<div style="height:8px;"></div>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Phase 1: Environment Setup & Enterprise AI Configuration</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Zero Data Retention (ZDR) Enforcement: Configure all AI tooling, developer APIs, IDE plugins, and chat interfaces under enterprise agreements that explicitly enforce Zero Data Retention. This ensures internal prompts, system schemas, and source code are never logged, cached, or utilized for model training.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">IP Assignment Audit: Review AI vendor terms of service to ensure contractual assignment of all right, title, and interest in generated outputs to the company, mitigating commercial title clouds.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Phase 2: Technical Conception & Invention Logging</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Documenting Human Conception: Under USPTO guidance, patent protection requires significant inventive contributions from natural persons. AI cannot be named as an inventor. Developers must maintain comprehensive Architecture Decision Records (ADRs) and technical white papers that document the original human conception of:</li>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>1.</b> The direct-to-device air-gapped zero-PII ingestion pipeline.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>2.</b> The dual-enclave on-device architecture enforcing complete relational decoupling between diagnostic history and encounter tokens.</p>
+<p style="margin:8px 0; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;"><b>3.</b> The detached JWS verifiable credential relay protocol enabling blind lab authenticity checks.</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Preserving Novelty & Trade Secrets: Core algorithmic flows, mathematical derivations, and cryptographic specs must remain strictly confidential prior to filing. Uncontrolled disclosure across public forums or standard consumer AI tiers invalidates statutory novelty under 35 U.S.C. § 102.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Phase 3: Code Implementation & Clean Authorship Audits</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Granular Git Commit Trails: Maintain detailed commit logs demonstrating substantive human selection, coordination, refactoring, and structural architecture. This creates an unassailable evidentiary record of human creative modification, ensuring codebase copyrightability.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Software Composition Analysis (SCA): Integrate automated dependency and license scanners (cargo-audit, pip-audit, GitHub Dependency Review) into CI/CD pipelines. This ensures AI-assisted code generation does not inadvertently inject copyleft dependencies (e.g., GPL-3.0, AGPL) that could compromise proprietary licensing.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Phase 4: Brand Protection & Comprehensive Clearance</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Multi-Class Trademark Clearance: Prior to commercial deployment, conduct comprehensive availability searches for "PulseGuard" across:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">USPTO Trademark Electronic Search System (TESS/TSDR).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Nice International Classes: Class 009 (downloadable mobile software) and Class 042 (Software-as-a-Service / healthcare technology).</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">State registries, global app store listings (Google Play, Apple App Store), and p upcommon-law digital registries.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Distinctive Visual Assets: Apply human creative curation and modification to all visual branding, vector iconography, and UI design tokens to secure independent copyright and trade dress protection.</li>
+<p style="margin:8px 0; line-height:1.6; color:#334155; font-size:11pt; font-family:sans-serif;">Phase 5: Statutory Filings & Commercial Release Readiness</p>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Pre-Disclosure Provisional Patent Applications: File a series of targeted U.S. Provisional Patent Applications covering the core technical mechanisms prior to any public beta, external funding disclosure, or open-source release:</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Claim System 1: The air-gapped, direct-to-device FHIR extraction method with sub-10ms in-memory PII purging.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Claim System 2: The dual-enclave on-device architecture enforcing complete relational decoupling between diagnostic history and encounter tokens.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Claim System 3: The detached JWS verifiable credential relay protocol enabling blind lab authenticity checks.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Trademark Filings: Submit Section 1(b) (Intent-to-Use) applications with the USPTO for the PulseGuard wordmark, stylized logo, and core service marks to lock in constructive priority dates.</li>
+<li style="margin-bottom:6px; color:#334155; font-size:11pt; line-height:1.6; font-family:sans-serif;">Commercial Terms & EULA: Deploy direct-to-consumer terms of service and end-user license agreements explicitly affirming proprietary ownership of algorithms, protocols, and interface designs while codifying the non-HIPAA direct-to-consumer data privacy model.</li>
+
+    </div>
+  </div>
+</body>
+</html>
