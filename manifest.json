@@ -1,0 +1,17 @@
+{
+  "name": "PulseGuard™ Governance & Signoff Portal",
+  "short_name": "PulseGuard",
+  "description": "Zero-Knowledge Healthcare Privacy Governance, Audit & Signoff Portal",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06080e",
+  "theme_color": "#090d16",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
