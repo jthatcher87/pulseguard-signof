@@ -39,14 +39,14 @@ const phasesData = {
     documents: [
       {
         title: "PulseGuard Peer Review & Cryptographic Audit Dossier",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1AjCilIzXlyERKvP8ImtRXaLEmhu40AOZHdBDCm7qlIM/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/01_cryptographic_audit.html",
         summary: "3-panel reviewer questionnaire, threat models (hostile OS, forensic chip-off, public relay compromise), binary wire schemas, and test vectors."
       },
       {
         title: "PulseGuard Architecture Decision Records (ADRs)",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1lu_kpPKk0mlNpZSX578UAuE7WEitSuEZqOqqDfqUJqs/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/01_adrs.html",
         summary: "Architectural directives ADR-001 through ADR-012 establishing human inventorship priority for USPTO patent applications."
       },
       {
@@ -73,14 +73,14 @@ const phasesData = {
     documents: [
       {
         title: "PulseGuard Clinical Pilot Deployment Playbook & IRB Operational Kit",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1oX-2ojohxz0r785cY60UzsqgW2qiMaIk13MpBl0H99M/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/02_clinical_pilot_playbook.html",
         summary: "IRB study protocol, e-Consent workflow, multi-cohort trials (Colleges, Municipal Clinics, Venues), and Clinical SOPs (SOP-PG-01 through 04)."
       },
       {
         title: "PulseGuard Clinical Confidentiality & Transmission Logic Guide",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1npFWrIxglq20wS2Ne1meS6aYZia4HoYaGxQBueY4K1w/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/02_transmission_logic_guide.html",
         summary: "Biological transmission window bounding, Smart Truncation via negative test anchors, and Syphilis dual-marker serofast adjudication."
       }
     ],
@@ -101,14 +101,14 @@ const phasesData = {
     documents: [
       {
         title: "PulseGuard App Store Regulatory & Compliance Dossier",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1rFXjqD5l4J5Lehy_CZpVBCOI_PU_9PtdU6UIh4trzXI/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/03_regulatory_compliance_dossier.html",
         summary: "Exhaustive legal dossier detailing FDA non-device status, Apple 'Data Not Collected' nutrition label, HIPAA conduit exception, and GDPR Article 9 & 25 audit."
       },
       {
         title: "PulseGuard IP Preservation & Patent Roadmap",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1TXs2NRk-LVY777wVtNYWBdH6FBUTH7NUnpmXzanr3rk/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/03_patent_ip_roadmap.html",
         summary: "Patent conception timeline, trademark clearance search protocols, and software composition analysis."
       }
     ],
@@ -130,20 +130,20 @@ const phasesData = {
     documents: [
       {
         title: "PulseGuard Master Technical Architecture Specification",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1-xEajq5uqauRcVVB1DruQn8KrHMfxvRAeD3UN-v9xbE/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/04_master_technical_architecture.html",
         summary: "End-to-end technical blueprint spanning hardware enclaves (SEP/StrongBox), SQLCipher DDL, memory buffers, and blind relay infrastructure."
       },
       {
         title: "PulseGuard Mobile Client State Machine",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/1Sj0doSK9JN539XOq4rPXOyvVFhzsuaMKai2MA8lPxSc/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/04_mobile_client_state_machine.html",
         summary: "Comprehensive state transition matrix across all 7 runtime domains, Ghost Mode 15s grace timer, and tiered monotonic lockout."
       },
       {
         title: "PulseGuard Stateless Relay Architecture Guide",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/10Y9OcJSqvm0wwVyjUuOUuShiFtDwFqHKl6sIza241II/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/04_stateless_relay_guide.html",
         summary: "RFC 9458 OHTTP gateway proxy, HPKE DHKEM-X25519-HKDF-SHA256, stateless bulletin board, and Redis TTL eviction."
       },
       {
@@ -188,14 +188,14 @@ const phasesData = {
     documents: [
       {
         title: "PulseGuard Executive Board Pitch Deck",
-        type: "Google Slides",
-        url: "https://docs.google.com/presentation/d/1bRpxWUfSRicMduuQBa7Wo7HkJnHoEx1Ce_gn8rFxjNQ/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable Presentation Dossier",
+        url: "./docs/05_executive_board_deck.html",
         summary: "10-slide high-level pitch deck covering the friction-security paradox, zero-cloud data footprint, EHR integration, and public health impact."
       },
       {
         title: "PulseGuard Board-Ready Architectural Design Guide",
-        type: "Google Doc",
-        url: "https://docs.google.com/document/d/15Wt29aDhMOC9pzSjr8IJ1w7W4lOzzBjEybtl6stzDhk/edit?usp=drivesdk&ouid=108054609350742252482",
+        type: "Printable HTML Dossier",
+        url: "./docs/05_board_architectural_guide.html",
         summary: "Executive-tier architectural briefing synthesizing zero-knowledge cryptographic mechanics into enterprise risk and governance language."
       }
     ],

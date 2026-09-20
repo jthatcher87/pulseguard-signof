@@ -6,85 +6,72 @@ Hosted live on GitHub Pages with automated GitHub Actions continuous deployment.
 
 ---
 
-## 🚀 1-Click Hosting on GitHub Pages
+## 🚀 Live Hosted Portal & Standalone Dossiers
 
-This repository is pre-configured for automated deployment to GitHub Pages.
+* **Main Governance Portal:**  
+  [https://jthatcher87.github.io/pulseguard_signof/](https://jthatcher87.github.io/pulseguard_signof/)
 
-### Setup Instructions
+### 📄 Standalone Printable HTML Dossiers (Review-Board Ready)
 
-1. **Create a new repository on GitHub:**
-   - Name: `pulseguard_signof` (or any name you prefer)
-   - Set visibility to **Public** (for standard free GitHub Pages) or **Private** (if you have GitHub Pro/Enterprise).
+Every dossier has been formatted as an executive, standalone, and printable HTML document (with `@media print` styling, metadata headers, and zero ASCII box characters). Each can be viewed in-browser or printed to PDF:
 
-2. **Initialize and push the repository from your terminal:**
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: initial commit PulseGuard Signoff Portal & Governance Tracker"
-   git branch -M main
-   git remote add origin https://github.com/jthatcher87/pulseguard_signof.git
-   git push -u origin main
-   ```
+#### Phase 1: Cryptographic & Security Signoff
+1. **[Peer Review & Cryptographic Audit Dossier](https://jthatcher87.github.io/pulseguard_signof/docs/01_cryptographic_audit.html)** (`docs/01_cryptographic_audit.html`)  
+   *3-panel reviewer questionnaire, formal threat models, binary wire schemas, and golden test vectors.*
+2. **[Architecture Decision Records (ADRs 001–012)](https://jthatcher87.github.io/pulseguard_signof/docs/01_adrs.html)** (`docs/01_adrs.html`)  
+   *Master specification of architectural directives and USPTO human inventorship disclosures.*
 
-3. **Enable GitHub Pages:**
-   - Go to your repository on GitHub: **Settings** → **Pages**.
-   - Under **Build and deployment** → **Source**, select **GitHub Actions**.
-   - The pre-configured workflow (`.github/workflows/deploy.yml`) will automatically trigger and publish the live portal at:
-     ```
-     https://jthatcher87.github.io/pulseguard_signof/
-     ```
+#### Phase 2: Clinical & IRB Governance Signoff
+3. **[Clinical Pilot Deployment Playbook & IRB Kit](https://jthatcher87.github.io/pulseguard_signof/docs/02_clinical_pilot_playbook.html)** (`docs/02_clinical_pilot_playbook.html`)  
+   *45 CFR 46 Minimal Risk Category 7 trial protocol (N=6,500), e-Consent flow, and clinical SOPs.*
+4. **[Clinical Confidentiality & Transmission Logic Guide](https://jthatcher87.github.io/pulseguard_signof/docs/02_transmission_logic_guide.html)** (`docs/02_transmission_logic_guide.html`)  
+   *CDC biological incubation bounding, smart truncation algorithms, and Syphilis dual-marker serofast adjudication.*
+
+#### Phase 3: Regulatory & App Store Compliance Signoff
+5. **[App Store Regulatory & Compliance Dossier](https://jthatcher87.github.io/pulseguard_signof/docs/03_regulatory_compliance_dossier.html)** (`docs/03_regulatory_compliance_dossier.html`)  
+   *FDA SaMD Section 3060(a) Non-Device Analysis, Apple Guideline 5.1.1 certification, HIPAA Conduit Exception, and GDPR Article 25.*
+6. **[IP Preservation & Patent Roadmap](https://jthatcher87.github.io/pulseguard_signof/docs/03_patent_ip_roadmap.html)** (`docs/03_patent_ip_roadmap.html`)  
+   *5-Phase rights preservation pipeline, Zero Data Retention (ZDR) configs, and trademark clearance protocols.*
+
+#### Phase 4: Engineering & Architecture Signoff
+7. **[Master Technical Architecture Specification](https://jthatcher87.github.io/pulseguard_signof/docs/04_master_technical_architecture.html)** (`docs/04_master_technical_architecture.html`)  
+   *End-to-end system blueprint, trust domain hierarchy, SQLCipher schemas, biometric unwrap lifecycle, and Ghost Mode.*
+8. **[Mobile Client State Machine](https://jthatcher87.github.io/pulseguard_signof/docs/04_mobile_client_state_machine.html)** (`docs/04_mobile_client_state_machine.html`)  
+   *State transition matrices across all 7 runtime domains, Riverpod patterns, and window shield managers.*
+9. **[Stateless Public Relay Architecture Guide](https://jthatcher87.github.io/pulseguard_signof/docs/04_stateless_relay_guide.html)** (`docs/04_stateless_relay_guide.html`)  
+   *RFC 9458 Oblivious HTTP gateway proxy, Redis TTL bulletin cache, and AWS Nitro / GCP Confidential Space configs.*
+
+#### Phase 5: Executive Board & Strategic Investor Signoff
+10. **[Board-Ready Architectural Design Guide](https://jthatcher87.github.io/pulseguard_signof/docs/05_board_architectural_guide.html)** (`docs/05_board_architectural_guide.html`)  
+    *Executive & investor briefing resolving the Friction-Security Paradox with near-zero marginal server cost.*
+11. **[Executive Pitch Presentation Dossier](https://jthatcher87.github.io/pulseguard_signof/docs/05_executive_board_deck.html)** (`docs/05_executive_board_deck.html`)  
+    *10-slide investor & board briefing: Verification Without Identification.*
+
+---
+
+## 💻 1-Click Push to GitHub
+
+```bash
+unzip pulseguard_signof-github.zip -d pulseguard_signof
+cd pulseguard_signof
+./push.sh
+```
+
+Or manually:
+```bash
+git init
+git add .
+git commit -m "feat: complete PulseGuard signoff portal with standalone printable HTML dossiers"
+git branch -M main
+git remote add origin https://github.com/jthatcher87/pulseguard_signof.git
+git push -u origin main
+```
 
 ---
 
 ## 📱 Features
 
-- **Progressive Web App (PWA):** Installs as a native standalone app on Android, iOS, macOS, and Windows.
-- **Offline Capable:** Full offline runtime via service worker caching.
-- **5 Multi-Disciplinary Signoff Gates:**
-  1. Cryptographic & Security Signoff (NIST AAL3 / FIPS 140-3)
-  2. Clinical & IRB Governance Signoff (45 CFR 46 / CDC Guidelines)
-  3. Regulatory & App Store Compliance Signoff (FDA SaMD / Apple 5.1.1 / HIPAA / GDPR)
-  4. Engineering & Architecture Signoff (RFC 9458 OHTTP / SQLCipher Triple-Ledger)
-  5. Executive Board & Strategic Investor Signoff (Commercial Authorization)
+- **Progressive Web App (PWA):** Offline-first runtime, installs as a native standalone app on mobile and desktop.
+- **Direct HTML Dossiers:** Every documentation file is hosted natively within the repository for immediate in-browser viewing and 1-click printing to PDF.
 - **Interactive Checklists & Audit Proofs:** Check off deliverables, view instant test vector telemetry, and generate cryptographic proof hashes.
-- **Device-Side Storage:** Signoff state persists automatically in browser `localStorage`.
-- **Export & Import:** Export state to JSON or formatted GitHub Markdown for issues and PR reviews.
-- **GitHub Issue Templates:** Pre-built templates for tracking formal signoffs in GitHub Issues and GitHub Projects.
-
----
-
-## 📂 Repository Structure
-
-```text
-├── .github/
-│   ├── ISSUE_TEMPLATE/                # GitHub Issue templates for each signoff phase
-│   │   ├── 01_cryptographic_security_signoff.md
-│   │   ├── 02_clinical_irb_signoff.md
-│   │   ├── 03_regulatory_compliance_signoff.md
-│   │   ├── 04_engineering_architecture_signoff.md
-│   │   └── 05_board_investor_signoff.md
-│   └── workflows/
-│       └── deploy.yml                 # GitHub Actions GitHub Pages deployment
-├── icons/
-│   └── icon.svg                       # High-resolution vector PWA brand icon
-├── .nojekyll                          # Bypasses Jekyll processing on GitHub Pages
-├── index.html                         # Main responsive PWA interface
-├── app.js                             # Interactive signoff controller & state manager
-├── manifest.json                      # Web App Manifest for mobile installation
-├── sw.js                              # Service worker for 100% offline support
-├── SIGNOFF_MATRIX.md                  # Comprehensive governance signoff reference
-├── README.md                          # Repository documentation
-└── LICENSE                            # MIT License
-```
-
----
-
-## 📜 Direct Document References
-
-All five signoff tracks link directly to the authoritative cloud dossiers:
-
-* **Phase 1:** [PulseGuard Peer Review & Cryptographic Audit Dossier](https://docs.google.com/document/d/1AjCilIzXlyERKvP8ImtRXaLEmhu40AOZHdBDCm7qlIM/edit?usp=drivesdk&ouid=108054609350742252482)
-* **Phase 2:** [PulseGuard Clinical Pilot Playbook & IRB Operational Kit](https://docs.google.com/document/d/1oX-2ojohxz0r785cY60UzsqgW2qiMaIk13MpBl0H99M/edit?usp=drivesdk&ouid=108054609350742252482)
-* **Phase 3:** [PulseGuard App Store Regulatory & Compliance Dossier](https://docs.google.com/document/d/1rFXjqD5l4J5Lehy_CZpVBCOI_PU_9PtdU6UIh4trzXI/edit?usp=drivesdk&ouid=108054609350742252482)
-* **Phase 4:** [PulseGuard Master Technical Architecture Specification](https://docs.google.com/document/d/1-xEajq5uqauRcVVB1DruQn8KrHMfxvRAeD3UN-v9xbE/edit?usp=drivesdk&ouid=108054609350742252482)
-* **Phase 5:** [PulseGuard Executive Board Pitch Deck](https://docs.google.com/presentation/d/1bRpxWUfSRicMduuQBa7Wo7HkJnHoEx1Ce_gn8rFxjNQ/edit?usp=drivesdk&ouid=108054609350742252482)
+- **GitHub Issue Templates:** 5 formal templates in `.github/ISSUE_TEMPLATE/` for logging review board signoffs on GitHub.
